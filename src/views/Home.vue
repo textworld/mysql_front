@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <p>
+      count: {{ counta }}
+    </p>
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
@@ -11,6 +14,11 @@ import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
+  computed: {
+    counta(){
+      return this.$store.state.count
+    }
+  },
   components: {
     HelloWorld
   }

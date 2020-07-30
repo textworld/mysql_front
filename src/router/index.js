@@ -4,21 +4,33 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
+export const menuRouts = [
   {
     path: '/',
     name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../layout/index'),
+    redirect: '/home',
+    meta: { title: 'Dashboard' },
+    children: [
+      {
+        path: 'home',
+        name: 'Home',
+        meta: { title: 'Home' },
+        component: () => import('../views/Home')
+      },
+      {
+        path: 'about',
+        name: 'About',
+        meta: { title: 'About' },
+        component: () => import('../views/About')
+      }
+    ]
   }
 ]
+
+const routes = [].concat(
+    menuRouts
+)
 
 const router = new VueRouter({
   mode: 'history',
@@ -27,3 +39,4 @@ const router = new VueRouter({
 })
 
 export default router
+

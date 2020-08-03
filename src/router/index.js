@@ -28,8 +28,17 @@ export const menuRouts = [
   }
 ]
 
+const mainRouter = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login')
+  }
+]
+
 const routes = [].concat(
-    menuRouts
+    menuRouts,
+    mainRouter
 )
 
 const router = new VueRouter({

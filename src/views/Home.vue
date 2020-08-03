@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <p>
-      count: {{ counta }}
+      count: {{ counta }},
+      username: {{ username }}
     </p>
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
@@ -17,6 +18,9 @@ export default {
   computed: {
     counta(){
       return this.$store.state.count
+    },
+    username() {
+      return this.$store.state.username
     }
   },
   components: {

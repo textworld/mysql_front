@@ -17,7 +17,8 @@ export default new Vuex.Store({
   state: {
     count: 0,
     token: getToken(),
-    username: ''
+    username: '',
+    user: {}
   },
   mutations: {
     increment (state) {
@@ -72,6 +73,14 @@ export default new Vuex.Store({
         }else{
           reject('login failed')
         }
+      })
+    },
+    getUserInfo({ commit }){
+      return new Promise((resolve, reject) => {
+        // 模拟异步操作
+        const username = 'zhangwenbing'
+        commit('setUsername', username)
+        resolve(username)
       })
     }
   },

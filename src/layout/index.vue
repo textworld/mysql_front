@@ -15,7 +15,7 @@
                             <el-dropdown-item>删除</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <span>王小虎</span>
+                    <span>{{ username }}</span>
                 </el-header>
 
                 <el-main>
@@ -23,8 +23,6 @@
                 </el-main>
             </el-container>
         </el-container>
-
-
     </div>
 
 
@@ -34,7 +32,12 @@
     import Sidebar from './components/Sidebar/index'
     export default {
         name: "index",
-        components: { Sidebar }
+        components: { Sidebar },
+        computed: {
+            username(){
+                return this.$store.state.username
+            }
+        }
     }
 </script>
 

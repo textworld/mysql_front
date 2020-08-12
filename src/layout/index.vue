@@ -42,5 +42,7 @@
 </script>
 
 <style scoped>
-
+    .app-wrapper{
+        height: 100%;
+    }
 </style>

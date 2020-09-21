@@ -23,6 +23,26 @@ export const menuRouts = [
         name: 'About',
         meta: { title: 'About' },
         component: () => import('../views/About')
+      },
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import('../views/user/index')
+      },
+      {
+        path: 'auth',
+        name: 'AuthPage',
+        component: () => import('../views/auth/index')
+      },
+      {
+        path: 'bill',
+        name: 'Bill',
+        component: () => import('../views/bill/index')
+      },
+      {
+        path: 'editor',
+        name: 'editor',
+        component: () => import('../views/editor/index')
       }
     ]
   }

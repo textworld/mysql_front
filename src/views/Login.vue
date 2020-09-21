@@ -1,70 +1,72 @@
 <template>
-  <el-form ref="form" :model="form" label-width="80px">
-    <el-form-item label="用户名">
-      <el-input v-model="form.username" autocomplete="off"></el-input>
-    </el-form-item>
+  <div class="wrapper">
+    <div class="container-login">
+      <div class="login-body">
+        <form action="" class="login-form">
+          <h1>登录</h1>
+          <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+            <input class="input100" type="text" name="email" placeholder="Email" v-model="formLogin.username">
+            <span class="focus-input100-1"></span>
+            <span class="focus-input100-2"></span>
+          </div>
 
-    <el-form-item label="密码">
-      <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
-    </el-form-item>
+          <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
+            <input class="input100" type="password" name="pass" placeholder="Password" v-model="formLogin.password">
+            <span class="focus-input100-1"></span>
+            <span class="focus-input100-2"></span>
+          </div>
 
-    <el-form-item>
-      <el-button type="primary" @click="login">登录</el-button>
-      <el-button>取消</el-button>
-    </el-form-item>
-  </el-form>
+          <div class="container-login100-form-btn m-t-20">
+            <button class="login100-form-btn" @click.prevent="handleLogging">
+              Sign in
+            </button>
+          </div>
+
+          <div class="text-center p-t-45 p-b-4">
+            <span class="txt1">
+                Forgot
+            </span>
+
+                    <a href="#" class="txt2 hov1">
+                      Username / Password?
+                    </a>
+                  </div>
+
+                  <div class="text-center">
+            <span class="txt1">
+                Create an account?
+            </span>
+
+            <a href="#" class="txt2 hov1">
+              Sign up
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-  import aesjs from 'aes-js'
-  import CryptoJS from 'crypto-js'
-  import JSEncrypt from 'jsencrypt'
+
+
 export default {
   name: "Login",
   data() {
     return {
-      form: {
-        username: '',
-        password: ''
+      formLogin: {
+        username: "",
+        password: ""
       }
     }
   },
+  created() {
+
+  },
   methods: {
-    encrypt(password) {
-      var key = CryptoJS.enc.Hex.parse('31323334353637383930313233343536');
-      var iv = CryptoJS.enc.Hex.parse('0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f');
-      var encrypted = CryptoJS.AES.encrypt("text can be a random lenght", key, {
-        mode: CryptoJS.mode.CTR,
-        iv: iv,
-        padding: CryptoJS.pad.NoPadding
-      });
-      console.log(encrypted.ciphertext.toString())
-      //1831e01b304d16fb27ec48ba8c2b5cb5bf0e84c6a88fa4b118b348
-    },
-    rsaEncrypt() {
-      // Encrypt with the public key...
-      var encrypt = new JSEncrypt();
-      encrypt.setPublicKey("-----BEGIN PUBLIC KEY-----\n" +
-              "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN\n" +
-              "FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76\n" +
-              "xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4\n" +
-              "gwQco1KRMDSmXSMkDwIDAQAB\n" +
-              "-----END PUBLIC KEY-----");
-      var encrypted = encrypt.encrypt('text can be a random lenght');
-      console.log(encrypted)
-      //kkEwvrhMsgN1dq+NVHjpiGEQR7dmXJQw2l++6zSF7BvIqjU2VzzyZBGD1MZD1muuxEG4+ERDdVn+aN+nXu4fqrrtHSdtMu/TR4oHlg6nkkSoPqZLuxvQShLp3zwBMqA5Bd2vnWt9MbSjgKSlckXJSQxan/RiRQbhSv2FS/iZwyY=
-    },
-    login () {
-      const userinfo = this.form
-      this.encrypt(this.form.password)
-      this.rsaEncrypt()
-      this.$store.dispatch('login', userinfo).then(resp => {
-        console.log(resp)
-        this.$router.push({
-          path: '/home'
-        })
-      }).catch(err => {
-        console.error(err)
+    handleLogging(){
+      this.$store.dispatch('login', this.formLogin).then(() => {
+        console.log('success')
       })
     }
   }
@@ -72,5 +74,106 @@ export default {
 </script>
 
 <style scoped>
+  button {
+    outline: none !important;
+    border: none;
+    background: transparent;
+  }
+  .wrapper {
+    width: 100%;
+  }
+  .container-login {
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #e9faff;
+  }
+  .login-body{
+    width: 500px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    padding: 65px 55px 50px 55px;
+  }
+  .login-form{
+    width: 100%;
+  }
+  .login-form > h1{
+      text-align: center;
+  }
+  .wrap-input100 {
+    width: 100%;
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+  }
+  .validate-input {
+    position: relative;
+  }
+  .container-login100-form-btn {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+  }
 
+  input.input100 {
+    height: 68px;
+    padding: 0 25px 0 25px;
+  }
+  .input100 {
+    display: block;
+    width: 100%;
+    background: transparent;
+    font-family: OpenSans-Regular;
+    font-size: 15px;
+    color: #666666;
+    line-height: 1.2;
+  }
+  .login100-form-btn {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    height: 60px;
+    background-color: #4272d7;
+    font-family: OpenSans-Regular;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+  }
+  input {
+    outline: none;
+    border: none;
+  }
+  .m-t-20 {
+    margin-top: 20px;
+  }
+
+  .txt1 {
+    font-family: OpenSans-Regular;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #999999;
+  }
 </style>

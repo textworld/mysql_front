@@ -11,7 +11,7 @@ router.beforeEach(async(to, from, next) => {
         }else{
             // 判断state.username是否为空，从服务器请求一遍，把获取的username再保存起来
             // 如果不为空，那么就什么也不做
-            let username = store.state.username
+            let username = store.state.user.username
             if (username) {
                 next()
             }else{

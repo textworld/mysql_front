@@ -29,7 +29,15 @@ export default {
       }
     }
   },
+  created() {
+    this.make()
+  },
   methods: {
+    make(){
+      console.log(() => ({
+        state: 1
+      }))
+    },
     encrypt(password) {
       var key = CryptoJS.enc.Hex.parse('31323334353637383930313233343536');
       var iv = CryptoJS.enc.Hex.parse('0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f');

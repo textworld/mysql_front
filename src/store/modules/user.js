@@ -8,10 +8,14 @@ const rasPublicKey = "-----BEGIN PUBLIC KEY-----\n" +
 
 export default {
     state: () => ({
-        user: {}
+        username: ""
 
     }),
-    mutations: {  },
+    mutations: {
+        setUsername (state, username) {
+            state.username = username
+        }
+    },
     actions: {
         login({commit}, loginRequest) {
             const {username, password} = loginRequest
@@ -19,7 +23,8 @@ export default {
             encrypt.setPublicKey(rasPublicKey)
             let encrypted = encrypt.encrypt(password)
             return new Promise((resolve, reject) => {
-
+                commit('setUsername', username)
+                resolve()
             })
         }
     },

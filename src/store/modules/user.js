@@ -1,4 +1,5 @@
 import JSEncrypt from 'jsencrypt'
+import {setToken} from '@/utils/auth'
 const rasPublicKey = "-----BEGIN PUBLIC KEY-----\n" +
     "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN\n" +
     "FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76\n" +
@@ -24,6 +25,7 @@ export default {
             let encrypted = encrypt.encrypt(password)
             return new Promise((resolve, reject) => {
                 commit('setUsername', username)
+                setToken(username)
                 resolve()
             })
         }

@@ -5,19 +5,19 @@
         <form action="" class="login-form">
           <h1>登录</h1>
           <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-            <input class="input100" type="text" name="email" placeholder="Email">
+            <input class="input100" type="text" name="email" placeholder="Email" v-model="formLogin.username">
             <span class="focus-input100-1"></span>
             <span class="focus-input100-2"></span>
           </div>
 
           <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-            <input class="input100" type="password" name="pass" placeholder="Password">
+            <input class="input100" type="password" name="pass" placeholder="Password" v-model="formLogin.password">
             <span class="focus-input100-1"></span>
             <span class="focus-input100-2"></span>
           </div>
 
           <div class="container-login100-form-btn m-t-20">
-            <button class="login100-form-btn">
+            <button class="login100-form-btn" @click.prevent="handleLogging">
               Sign in
             </button>
           </div>
@@ -48,12 +48,28 @@
 </template>
 
 <script>
-  import aesjs from 'aes-js'
-  import CryptoJS from 'crypto-js'
-  import JSEncrypt from 'jsencrypt'
+
+
 export default {
   name: "Login",
+  data() {
+    return {
+      formLogin: {
+        username: "",
+        password: ""
+      }
+    }
+  },
+  created() {
 
+  },
+  methods: {
+    handleLogging(){
+      this.$store.dispatch('login', this.formLogin).then(() => {
+        console.log('success')
+      })
+    }
+  }
 }
 </script>
 
@@ -152,5 +168,12 @@ export default {
   }
   .m-t-20 {
     margin-top: 20px;
+  }
+
+  .txt1 {
+    font-family: OpenSans-Regular;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #999999;
   }
 </style>

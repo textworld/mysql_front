@@ -1,9 +1,9 @@
 <template>
     <el-container>
-        <el-header style="border-bottom: 1px solid #dcdfe6">
+        <el-header style="border-bottom: 1px solid #dcdfe6;" height="61px">
             <el-container>
-                <h1>
-                    <a href="" alt="logo">Logo</a>
+                <h1 style="line-height: 60px;margin:0px;padding: 0 40px;">
+                    <a href="" alt="logo">51信用卡ES管理平台</a>
                 </h1>
                 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                     <el-menu-item index="1">处理中心</el-menu-item>
@@ -23,7 +23,7 @@
                     <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
                 </el-menu>
             </el-container>
-            
+
         </el-header>
         <el-main>
             <router-view></router-view>
@@ -39,6 +39,11 @@
         computed: {
             username(){
                 return this.$store.state.username
+            }
+        },
+        data(){
+            return {
+                activeIndex: "1"
             }
         },
         methods: {

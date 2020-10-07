@@ -28,6 +28,11 @@ export const menuRouts = [
         path: 'user',
         name: 'User',
         component: () => import('../views/user/index')
+      },
+      {
+        path: 'auth',
+        name: 'AuthPage',
+        component: () => import('../views/auth/index')
       }
     ]
   }

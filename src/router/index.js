@@ -33,6 +33,11 @@ export const menuRouts = [
         path: 'auth',
         name: 'AuthPage',
         component: () => import('../views/auth/index')
+      },
+      {
+        path: 'bill',
+        name: 'Bill',
+        component: () => import('../views/bill/index')
       }
     ]
   }

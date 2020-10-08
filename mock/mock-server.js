@@ -7,6 +7,7 @@ const Mock = require('mockjs')
 const mockDir = path.join(process.cwd(), 'mock')
 
 function registerRoutes(app) {
+    console.log('register routes')
     let mockLastIndex
     const { mocks } = require('./index.js')
     const mocksForServer = mocks.map(route => {
@@ -33,6 +34,7 @@ function unregisterRoutes() {
 
 // for mock server
 const responseFake = (url, type, respond) => {
+    console.log('responseFake', `${process.env.VUE_APP_BASE_API}${url}`)
     return {
         url: new RegExp(`${process.env.VUE_APP_BASE_API}${url}`),
         type: type || 'get',

@@ -1,3 +1,5 @@
+const fs = require('fs');//引入文件系统模块
+const path = require('path');
 /**
  * @param {string} url
  * @returns {Object}
@@ -42,7 +44,15 @@ function deepClone(source) {
     return targetObj
 }
 
+function getJsonFile (filePath) {
+    //读取指定json文件
+    var json = fs.readFileSync(path.resolve(__dirname,filePath), 'utf-8');
+    //解析并返回
+    return JSON.parse(json);
+}
+
 module.exports = {
     param2Obj,
-    deepClone
+    deepClone,
+    getJsonFile
 }

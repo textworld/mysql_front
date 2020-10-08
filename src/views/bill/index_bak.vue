@@ -81,83 +81,156 @@ export default {
   created() {},
   mounted() {
     let _this = this;
-    const width = 600,
-      height = 600;
     getBillData().then((resp) => {
-      const data = {
-        name: "root",
-        children: [
-          {
-            name: "a",
-            value: 13,
-            children: [
-              {
-                name: "b",
-                value: 1,
-              },
-              {
-                name: "c",
-                value: 2,
-              },
-            ],
-          },
-          {
-            name: "e",
-            value: 14,
-          },
-        ],
-      };
-      let radius = width / 6;
+      this.initializeBreadcrumbTrail();
+      let billList = resp.data.data;
+      let width = 640;
+      let radius = width / 2;
+      let mousearc = d3
+        .arc()
+        .startAngle((d) => d.x0)
+        .endAngle((d) => d.x1)
+        .innerRadius((d) => Math.sqrt(d.y0))
+        .outerRadius(radius);
       let arc = d3
         .arc()
         .startAngle((d) => d.x0)
         .endAngle((d) => d.x1)
-        .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
-        .padRadius(radius * 1.5)
-        .innerRadius((d) => d.y0 * radius)
-        .outerRadius((d) => Math.max(d.y0 * radius, d.y1 * radius - 1));
-      let arcVisible = (d) => d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
-      let format = d3.format(",d");
-      let color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
-      const root = d3
-        .hierarchy(data)
-        .sum((n) => n.value)
-        .sort((a, b) => b.value - a.value);
-      root.each(d => d.current = d);
-      const partition = d3.partition().size([2 * Math.PI, root.height + 1])(
-        root
-      );
-      console.log(partition);
-      console.log(root);
-      const svg = d3
-        .create("svg")
-        .attr("viewbox", [0, 0, width, height])
-        .style("font", "10px sans-serif");
-      const g = svg
-        .append("g")
-        .attr("transform", `translate(${width / 2},${width / 2})`);
-      const path = g
+        .padAngle(1 / radius)
+        .padRadius(radius)
+        .innerRadius((d) => Math.sqrt(d.y0))
+        .outerRadius((d) => Math.sqrt(d.y1) - 1);
+      let color = d3
+        .scaleOrdinal()
+        .domain(["home", "product", "search", "account", "other", "end"])
+        .range([
+          "#5d85cf",
+          "#7c6561",
+          "#da7847",
+          "#6fb971",
+          "#9e70cf",
+          "#bbbbbb",
+        ]);
+      let partition = (data) => {
+        return d3.partition().size([2 * Math.PI, radius * radius])(
+          d3
+            .hierarchy(data)
+            .sum((d) => d.value)
+            .sort((a, b) => b.value - a.value)
+        );
+      };
+      let csv_obj = billList
+        .map((b) => {
+          if (!b.category_path) {
+            return null;
+          }
+          let r = [];
+          r[0] = b.category_path.replace(/^\//, "").replace("/", "-");
+          r[1] = parseFloat(b.price);
+          return r;
+        })
+        .filter((b) => b != null)
+        .reduce((accumulator, currentValue) => {
+          let path = currentValue[0];
+          let val = currentValue[1];
+          if (path in accumulator) {
+            accumulator[path] += val;
+          } else {
+            accumulator[path] = val;
+          }
+          return accumulator;
+        }, {});
+      let csv = [];
+      for (let k in csv_obj) {
+        csv.push([k, csv_obj[k]]);
+      }
+
+      let data = buildHierarchy(csv);
+      const root = partition(data);
+      const svg = d3.create("svg");
+      // Make this into a view, so that the currently hovered sequence is available to the breadcrumb
+      const element = svg.node();
+      element.value = { sequence: [], percentage: 0.0 };
+
+      const label = svg
+        .append("text")
+        .attr("text-anchor", "middle")
+        .attr("fill", "#888")
+        .style("visibility", "hidden");
+
+      label
+        .append("tspan")
+        .attr("class", "percentage")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("dy", "-0.1em")
+        .attr("font-size", "3em")
+        .text("");
+
+      label
+        .append("tspan")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("dy", "1.5em")
+        .text("of visits begin with this sequence");
+
+      svg
+        .attr("viewBox", `${-radius} ${-radius} ${width} ${width}`)
+        .style("max-width", `${width}px`)
+        .style("font", "12px sans-serif");
+
+      const path = svg
         .append("g")
         .selectAll("path")
-        .data(root.descendants().slice(1))
-        .join("path")
-        .attr("fill", (d) => {
-          while (d.depth > 1) d = d.parent;
-          return color(d.data.name);
-        })
-        .attr("fill-opacity", (d) =>
-          arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0
+        .data(
+          root.descendants().filter((d) => {
+            // Don't draw the root node, and for efficiency, filter out nodes that would be too small to see
+            return d.depth && d.x1 - d.x0 > 0.001;
+          })
         )
-        .attr("d", (d) => arc(d.current));
-      path.append("title").text(
-        (d) =>
-          `${d
-            .ancestors()
-            .map((d) => d.data.name)
-            .reverse()
-            .join("/")}\n${format(d.value)}`
-      );
-      const element = svg.node();
+        .join("path")
+        .attr("fill", (d) => color(d.data.name))
+        .attr("d", arc);
+
+      svg
+        .append("g")
+        .attr("fill", "none")
+        .attr("pointer-events", "all")
+        .on("mouseleave", () => {
+          path.attr("fill-opacity", 1);
+          label.style("visibility", "hidden");
+          // Update the value of this view
+          element.value = { sequence: [], percentage: 0.0 };
+          element.dispatchEvent(new CustomEvent("input"));
+        })
+        .selectAll("path")
+        .data(
+          root.descendants().filter((d) => {
+            // Don't draw the root node, and for efficiency, filter out nodes that would be too small to see
+            return d.depth && d.x1 - d.x0 > 0.001;
+          })
+        )
+        .join("path")
+        .attr("d", mousearc)
+        .on("mouseenter", (event, d) => {
+          // Get the ancestors of the current segment, minus the root
+          const sequence = d.ancestors().reverse().slice(1);
+          // Highlight the ancestors
+          path.attr("fill-opacity", (node) =>
+            sequence.indexOf(node) >= 0 ? 1.0 : 0.3
+          );
+          const percentage = ((100 * d.value) / root.value).toPrecision(3);
+          label
+            .style("visibility", null)
+            .select(".percentage")
+            .text(percentage + "%");
+          // Update the value of this view with the currently hovered sequence and percentage
+          element.value = { sequence, percentage };
+          element.dispatchEvent(new CustomEvent("input"));
+          var sequenceArray = _this.getAncestors(d);
+          _this.updateBreadcrumbs(sequenceArray, percentage + "%");
+        });
+
       this.$refs.d3.appendChild(element);
     });
   },
@@ -186,13 +259,13 @@ export default {
     },
     updateBreadcrumbs(nodeArray, percentageString) {
       // Data join; key function combines name and depth (= position in sequence).
-      console.log("nodeArray", nodeArray);
-      let b = this.b;
+      console.log('nodeArray', nodeArray)
+      let b = this.b
       var g = d3
         .select("#trail")
         .selectAll("g")
         .data(nodeArray, function (d) {
-          console.log("trail", d);
+          console.log('trail', d)
           return d.data.name + d.depth;
         });
 
@@ -203,7 +276,7 @@ export default {
         .append("svg:polygon")
         .attr("points", breadcrumbPoints)
         .style("fill", function (d) {
-          return "#5687d1";
+          return '#5687d1';
         });
 
       entering

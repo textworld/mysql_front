@@ -26,7 +26,7 @@ const users = {
 module.exports = [
     // user login
     {
-        url: '/vue-element-admin/user/login',
+        url: '/v1/user/login',
         type: 'post',
         response: config => {
             const { username } = config.body

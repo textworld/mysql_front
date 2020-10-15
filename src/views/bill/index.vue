@@ -83,20 +83,22 @@
             }
             function labelTransform(d) {
                 const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
-                const y = (d.y0 + d.y1) / 2 * radius;
-                return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+                const y = (d.y0 + d.y1) / 2;
+                //return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+                console.log(d.data.name, x-90)
+                return `rotate(${x-90}) translate(${y}, 0) rotate(${x < 180?0 : 180})`;
             }
             const label = g.append("g")
                 .attr("pointer-events", "none")
                 .attr("text-anchor", "middle")
                 .style("user-select", "none")
                 .selectAll("text")
-                .data(root.descendants().slice(1))
+                .data(partition.descendants().slice(1))
                 .join("text")
                 .attr("dy", "0.35em")
-                .attr("fill-opacity", d => +labelVisible(d.current))
+                //.attr("fill-opacity", d => +labelVisible(d.current))
                 .attr("transform", d => labelTransform(d.current))
-                .text(d => d.data.name);
+                .text(d => d.data.name + "abcdefg");
 
             const element = svg.node();
             this.$refs.d3.appendChild(element);

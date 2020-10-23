@@ -49,7 +49,7 @@
 
 <script>
 
-
+  import _ from "lodash"
 export default {
   name: "Login",
   data() {
@@ -66,7 +66,12 @@ export default {
   methods: {
     handleLogging(){
       this.$store.dispatch('login', this.formLogin).then(() => {
-        console.log('success')
+        let redirect = this.$route.query.redirect
+        redirect = _.isString(redirect) ? redirect : undefined
+        redirect = redirect ? decodeURI(redirect) : "/"
+        this.$router.push({
+          path: redirect
+        })
       })
     }
   }

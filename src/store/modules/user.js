@@ -1,5 +1,6 @@
 import JSEncrypt from 'jsencrypt'
-import {setToken} from '@/utils/auth'
+import {setToken, getToken, removeToken} from '@/utils/auth'
+import {logout} from '@/api/user'
 const rasPublicKey = "-----BEGIN PUBLIC KEY-----\n" +
     "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN\n" +
     "FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76\n" +
@@ -9,7 +10,7 @@ const rasPublicKey = "-----BEGIN PUBLIC KEY-----\n" +
 
 export default {
     state: () => ({
-        username: ""
+        username: getToken()
 
     }),
     mutations: {
@@ -27,6 +28,18 @@ export default {
                 commit('setUsername', username)
                 setToken(username)
                 resolve()
+            })
+        },
+        logout({commit}) {
+            return new Promise((resolve, reject) => {
+                logout().then(resp => {
+                    removeToken()
+                    commit('setUsername', '')
+                    resolve()
+                }).catch(err => {
+                    console.error('failed to logout', err)
+                    reject(err)
+                })
             })
         }
     },

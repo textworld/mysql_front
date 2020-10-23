@@ -38,6 +38,14 @@ export const menuRouts = [
         path: 'bill',
         name: 'Bill',
         component: () => import('../views/bill/index')
+<<<<<<< HEAD
+=======
+      },
+      {
+        path: 'editor',
+        name: 'editor',
+        component: () => import('../views/editor/index')
+>>>>>>> c085a8d04d63b920252423562040d7107f5698e9
       }
     ]
   }

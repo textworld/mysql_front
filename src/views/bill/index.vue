@@ -7,8 +7,8 @@
 
 <script>
 import * as d3 from "d3";
-import { getBillData } from "@/api/bill";
-
+import { getBillData, login } from "@/api/bill";
+import request from "@/utils/request";
 let arcVisible = (d) => d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
 function buildHierarchy(csv) {
   // Helper function that transforms the given CSV into a hierarchical format.
@@ -53,6 +53,23 @@ function buildHierarchy(csv) {
 }
 export default {
   name: "index",
+  data(){
+    return {
+      username: "",
+      password: ""
+    }
+  },
+  methods: {
+    clickLogin() {
+
+      login({
+        username: this.username,
+        password: this.password
+      }).then(resp => {
+        console.log(resp)
+      })
+    }
+  },
   mounted() {
     getBillData().then((resp) => {
       let billList = resp.data.data;

@@ -8,3 +8,13 @@ export function getBillData(params){
         params: params
       })
 }
+
+export function login(data) {
+    //return request.post('/login', data)
+    return request({
+        url: '/login',
+        method: 'post',
+        data: data
+    })
+}
+

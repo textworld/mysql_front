@@ -192,7 +192,7 @@ export default {
         //.attr("fill-opacity", d => +labelVisible(d.current))
         .attr("transform", (d) => labelTransform(d.current))
         .text((d) => d.data.name + d.value.toFixed(2));
-
+      g.append("text").text("总计" + partition.descendants()[0].value.toFixed(2));
       const element = svg.node();
       this.$refs.d3.appendChild(element);
     });

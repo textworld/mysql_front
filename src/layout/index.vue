@@ -3,7 +3,11 @@
         <el-header style="border-bottom: 1px solid #dcdfe6;" height="61px">
             <el-container>
                 <h1 style="line-height: 60px;margin:0px;padding: 0 40px;">
+<<<<<<< HEAD
+                    <a href="" alt="logo">51信用卡ES管理平台</a>
+=======
                     <a href="" alt="logo">管理平台</a>
+>>>>>>> c085a8d04d63b920252423562040d7107f5698e9
                 </h1>
                 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                     <el-menu-item index="1">处理中心</el-menu-item>
@@ -13,15 +17,24 @@
                         <el-menu-item index="2-2">选项2</el-menu-item>
                         <el-menu-item index="2-3">选项3</el-menu-item>
                         <el-submenu index="2-4">
+<<<<<<< HEAD
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="2-4-1">选项1</el-menu-item>
+                        <el-menu-item index="2-4-2">选项2</el-menu-item>
+                        <el-menu-item index="2-4-3">选项3</el-menu-item>
+=======
                             <template slot="title">选项4</template>
                             <el-menu-item index="2-4-1">选项1</el-menu-item>
                             <el-menu-item index="2-4-2">选项2</el-menu-item>
                             <el-menu-item index="2-4-3">选项3</el-menu-item>
+>>>>>>> c085a8d04d63b920252423562040d7107f5698e9
                         </el-submenu>
                     </el-submenu>
                     <el-menu-item index="3" disabled>消息中心</el-menu-item>
                     <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
                 </el-menu>
+<<<<<<< HEAD
+=======
                 <el-dropdown style="line-height: 60px;" @command="handleUserDropdown">
                     <span class="el-dropdown-link">
                         用户<i class="el-icon-arrow-down el-icon--right"></i>
@@ -31,6 +44,7 @@
                         <el-dropdown-item command="logout">登出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
+>>>>>>> c085a8d04d63b920252423562040d7107f5698e9
             </el-container>
 
         </el-header>
@@ -51,12 +65,20 @@
                 return this.$store.state.username
             }
         },
+<<<<<<< HEAD
+        data(){
+=======
         data() {
+>>>>>>> c085a8d04d63b920252423562040d7107f5698e9
             return {
                 activeIndex: "1"
             }
         },
         methods: {
+<<<<<<< HEAD
+            handleSelect(name){
+
+=======
             handleSelect(name) {
 
             },
@@ -76,6 +98,7 @@
                     default:
 
                 }
+>>>>>>> c085a8d04d63b920252423562040d7107f5698e9
             }
         }
     }
@@ -83,10 +106,16 @@
 
 <style scoped>
     .el-menu-demo {
+<<<<<<< HEAD
+        float: right;
+    }
+    .app-wrapper{
+=======
         flex: 1;
     }
 
     .app-wrapper {
+>>>>>>> c085a8d04d63b920252423562040d7107f5698e9
         height: 100%;
     }
 </style>

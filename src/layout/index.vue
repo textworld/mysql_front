@@ -1,30 +1,18 @@
 <template>
     <div class="app-wrapper">
-        <el-container style="height: 100%; border: 1px solid #eee">
-            <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                <Sidebar></Sidebar>
-            </el-aside>
-
-            <el-container>
-                <el-header style="text-align: right; font-size: 12px">
-                    <el-dropdown>
-                        <i class="el-icon-setting" style="margin-right: 15px"></i>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>查看</el-dropdown-item>
-                            <el-dropdown-item>新增</el-dropdown-item>
-                            <el-dropdown-item>删除</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                    <span>{{ username }}</span>
-                </el-header>
-
-                <el-main>
-                    <router-view></router-view>
-                </el-main>
-            </el-container>
-        </el-container>
+        <div class="sidebar-container">
+            <el-scrollbar>
+                <ul style="height: 100vh;">
+                    <li style="height: 500px;">1</li>
+                    <li style="height: 500px;">2</li>
+                    <li style="height: 500px;">3</li>
+                </ul>
+            </el-scrollbar>
+        </div>
+        <div class="main-container">
+            <p>test</p>
+        </div>
     </div>
-
 
 </template>
 
@@ -43,6 +31,17 @@
 
 <style scoped>
     .app-wrapper{
-        height: 100%;
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+    }
+    .sidebar-container {
+
+        width: 40px;
+        position: fixed;
+        left: 0;
+    }
+    .main-container{
+        margin-left: 40px;
     }
 </style>

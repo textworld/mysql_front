@@ -91,4 +91,11 @@
     .sidebar-container .el-scrollbar {
         height: 100%;
     }
+    .app-main{
+        padding: 20px 30px;
+    }
+    .side-bar .el-submenu{
+        width: 200px;
+        overflow: hidden;
+    }
 </style>

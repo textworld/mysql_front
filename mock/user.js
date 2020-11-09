@@ -75,10 +75,6 @@ module.exports = [
         url: '/vue-element-admin/user/logout',
         type: 'post',
         response: _ => {
-<<<<<<< HEAD
-=======
-
->>>>>>> c085a8d04d63b920252423562040d7107f5698e9
             return {
                 code: 20000,
                 data: 'success'

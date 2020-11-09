@@ -44,5 +44,5 @@ module.exports = {
             errors: true
         },
         before: require('./mock/mock-server.js')
-    },
+    }
 }

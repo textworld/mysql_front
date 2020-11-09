@@ -13,20 +13,14 @@
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "chokidar": "^3.4.2",
-<<<<<<< HEAD
-=======
     "codemirror": "^5.58.1",
->>>>>>> c085a8d04d63b920252423562040d7107f5698e9
     "core-js": "^3.6.5",
     "crypto-js": "^4.0.0",
     "d3": "^6.2.0",
     "element-ui": "^2.13.2",
     "js-cookie": "^2.2.1",
     "jsencrypt": "^3.0.0-rc.1",
-<<<<<<< HEAD
-=======
     "lodash": "^4.17.20",
->>>>>>> c085a8d04d63b920252423562040d7107f5698e9
     "mockjs": "^1.1.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
@@ -39,7 +33,7 @@
     "@vue/cli-service": "~4.4.0",
     "eslint": "^7.10.0",
     "eslint-plugin-vue": "^7.0.1",
-    "less": "^3.0.4",
+    "less": "^3.12.2",
     "less-loader": "^5.0.0",
     "vue-template-compiler": "^2.6.11"
   },

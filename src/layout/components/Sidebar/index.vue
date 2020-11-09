@@ -6,7 +6,8 @@
                     class="el-menu-vertical-demo"
                     background-color="rgb(48, 65, 86)"
                     text-color="#fff"
-                    active-text-color="#ffd04b">
+                    active-text-color="#ffd04b"
+                    router>
                 <!-- 组件的传值
                     冒号的作用就是将表达值作为JavaScript进行计算
                    :key="k" 传入的是一个变量的值，假如k变量的值是3，那么传给组件的值就是3
@@ -16,12 +17,12 @@
                     <!-- slot机制 -->
                     <template slot="title">
                         <i class="el-icon-location"></i>
-                        <span>{{ submenu.meta ? submenu.meta.title : 'no title' }}</span>
+                        <span>{{ submenu.meta ? submenu.meta.title : child.name }}</span>
                     </template>
 
                     <el-menu-item-group>
-                        <el-menu-item v-for="(child, cKey) in submenu.children" :key="cKey">
-                            <router-link :to="child.path">{{ child.meta ? child.meta.title : 'no title' }}</router-link>
+                        <el-menu-item v-for="(child, cKey) in submenu.children" :key="cKey" :index="child.path">
+                            {{ child.meta ? child.meta.title : child.name }}
                         </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>

@@ -65,6 +65,7 @@
     }
     .app-wrapper{
         flex: 1;
+        background-color: #f0f2f5;
     }
 
     .app-wrapper{
@@ -92,9 +93,9 @@
         height: 100%;
     }
     .app-main{
-        padding: 20px 30px;
+        margin: 24px;
     }
-    .side-bar .el-submenu{
+    .el-submenu{
         width: 200px;
         overflow: hidden;
     }

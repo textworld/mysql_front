@@ -15,7 +15,7 @@ export const menuRouts = [
       {
         path: 'home',
         name: 'Home',
-        meta: { title: 'Home' },
+        meta: { title: 'TodoList' },
         component: () => import('../views/Home')
       },
       {
@@ -27,6 +27,7 @@ export const menuRouts = [
       {
         path: 'user',
         name: 'User',
+        meta: { title: '用户管理' },
         component: () => import('../views/user/index')
       },
       {
@@ -42,6 +43,7 @@ export const menuRouts = [
       {
         path: 'editor',
         name: 'editor',
+        meta: { title: 'SQL编辑器' },
         component: () => import('../views/editor/index')
       }
     ]

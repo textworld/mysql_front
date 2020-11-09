@@ -1,12 +1,31 @@
 <template>
     <div class="nav">
+        <div style="float: right;margin-right: 10px;">
 
+            <el-dropdown @command="handleCommand">
+                <span class="el-dropdown-link">
+                    zhangwenbing <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                
+                <el-dropdown-menu slot="dropdown">
+                    <router-link to="/profile/index">
+                        <el-dropdown-item>Profile</el-dropdown-item>
+                    </router-link>
+                    <el-dropdown-item @click.native="logout">logout</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "index"
+        name: "index",
+        methods: {
+            logout(){
+                console.log('logout')
+            }
+        }
     }
 </script>
 

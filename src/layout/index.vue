@@ -1,16 +1,11 @@
 <template>
     <div class="app-wrapper">
-        <div class="sidebar-container">
-            <el-scrollbar>
-                <ul style="height: 100vh;">
-                    <li style="height: 500px;">1</li>
-                    <li style="height: 500px;">2</li>
-                    <li style="height: 500px;">3</li>
-                </ul>
-            </el-scrollbar>
-        </div>
+        <Sidebar></Sidebar>
         <div class="main-container">
-            <p>test</p>
+            <Navbar></Navbar>
+            <div class="app-main">
+                <router-view></router-view>
+            </div>
         </div>
     </div>
 
@@ -18,18 +13,27 @@
 
 <script>
     import Sidebar from './components/Sidebar/index'
+    import Navbar from './components/NavBar/index'
     export default {
         name: "index",
-        components: { Sidebar },
+        components: { Sidebar, Navbar },
         computed: {
             username(){
                 return this.$store.state.username
+            }
+        },
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
             }
         }
     }
 </script>
 
-<style scoped>
+<style>
     .app-wrapper{
         position: relative;
         width: 100vw;
@@ -37,11 +41,21 @@
     }
     .sidebar-container {
 
-        width: 40px;
+        width: 200px;
         position: fixed;
         left: 0;
     }
     .main-container{
-        margin-left: 40px;
+        margin-left: 200px;
+    }
+    .side-bar{
+        height: 100%;
+    }
+    .scrollbar-wrapper {
+        height: 100%;
+        overflow-x: hidden !important;
+    }
+    .sidebar-container .el-scrollbar {
+        height: 100%;
     }
 </style>

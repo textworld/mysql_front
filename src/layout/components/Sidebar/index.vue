@@ -2,7 +2,7 @@
     <div class="sidebar-container">
         <el-scrollbar wrap-class="scrollbar-wrapper">
             <el-menu
-                    default-active="2"
+                    default-active="/home"
                     class="el-menu-vertical-demo"
                     background-color="rgb(48, 65, 86)"
                     text-color="#fff"
@@ -13,7 +13,7 @@
                    :key="k" 传入的是一个变量的值，假如k变量的值是3，那么传给组件的值就是3
                    key="k"  传入的是一个字符串"k",那么传给组件的值就是字符串k
                  -->
-                <el-submenu v-for="(submenu, key) in menuRouts" :key="key">
+                <el-submenu v-for="(submenu, key) in menuRouts" :key="key" :index="submenu.path">
                     <!-- slot机制 -->
                     <template slot="title">
                         <i class="el-icon-location"></i>
@@ -66,9 +66,17 @@
 
     export default {
         name: "index",
+        computed: {
+            routePath(){
+                return this.$route.path
+            }
+        },
+        created() {
+            console.log(this.routePath)
+        },
         data(){
             return {
-                menuRouts: menuRouts
+                menuRouts: menuRouts,
             }
         }
     }

@@ -3,7 +3,10 @@ import Vuex from 'vuex'
 import { getToken, setToken, removeToken } from "@/utils/auth";
 import User from './modules/user'
 import dbtables from "@/store/modules/dbtables";
+<<<<<<< HEAD
 
+=======
+>>>>>>> zwb
 Vue.use(Vuex)
 // const store = new Vuex.Store({
 //   state: {

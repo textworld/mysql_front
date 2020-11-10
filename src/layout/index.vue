@@ -21,14 +21,12 @@
                 return this.$store.state.username
             }
         },
-
         data() {
             return {
                 activeIndex: "1"
             }
         },
         methods: {
-
             handleSelect(name) {
 
             },
@@ -42,11 +40,13 @@
                 })
             },
             handleUserDropdown(command) {
+                console.log(command)
                 switch (command) {
                     case "logout":
+                        this.logout()
                         break;
                     default:
-
+                        console.log('default')
                 }
             },
             handleOpen(key, keyPath) {
@@ -74,7 +74,6 @@
         height: 100vh;
     }
     .sidebar-container {
-
         width: 200px;
         position: fixed;
         left: 0;
@@ -86,6 +85,7 @@
         height: 100%;
     }
     .scrollbar-wrapper {
+
         height: 100%;
         overflow-x: hidden !important;
     }

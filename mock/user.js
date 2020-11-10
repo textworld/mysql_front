@@ -26,24 +26,24 @@ const users = {
 module.exports = [
     // user login
     {
-        url: '/v1/user/login',
+        url: '/v1/auth/login',
         type: 'post',
         response: config => {
-            const { username } = config.body
-            const token = tokens[username]
-
-            // mock error
-            if (!token) {
+            const {username, password} = config.query
+            if (username == "apple" && password == "ffffff") {
                 return {
-                    code: 60204,
-                    message: 'Account and password are incorrect.'
+                    code: 2000,
+                    data: {
+                        username: "apple",
+                        email: ""
+                    },
+                    message: ""
                 }
-            }
-
-            return {
-                code: 20000,
-                data: token
-            }
+           }else{
+                return {
+                    code: 400
+                }
+           }
         }
     },
 
@@ -72,8 +72,8 @@ module.exports = [
 
     // user logout
     {
-        url: '/vue-element-admin/user/logout',
-        type: 'post',
+        url: '/v1/user/logout',
+        type: 'get',
         response: _ => {
             return {
                 code: 20000,

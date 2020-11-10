@@ -7,3 +7,11 @@ export function logout(params){
         params: params
     })
 }
+
+export let login = (body) => {
+    return request({
+        url: '/v1/auth/login',
+        method: 'post',
+        data: body
+    })
+}

@@ -16,7 +16,8 @@ module.exports = {
             alias: {
                 '@': resolve('src')
             }
-        }
+        },
+        devtool: 'source-map'
     },
     devServer: {
         port: port,
@@ -26,18 +27,18 @@ module.exports = {
                 target: 'http://localhost:8888',
                 changeOrigin: true
             },
-            '/login': {
-                target: 'http://localhost:8888',
-                changeOrigin: true
-            },
-            '/logout': {
-                target: 'http://localhost:8888',
-                changeOrigin: true
-            },
-            '/apollo-server': {
-                target: 'http://localhost:8888',
-                changeOrigin: true
-            }
+            // '/login': {
+            //     target: 'http://localhost:8888',
+            //     changeOrigin: true
+            // },
+            // '/logout': {
+            //     target: 'http://localhost:8888',
+            //     changeOrigin: true
+            // },
+            // '/apollo-server': {
+            //     target: 'http://localhost:8888',
+            //     changeOrigin: true
+            // }
         },
         overlay: {
             warnings: false,

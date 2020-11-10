@@ -66,6 +66,7 @@ export default {
             })
             .catch((err) => {
               this.loading = false
+              this.$message.error("用户名或者密码错误")
             });
         } else {
           console.log('error submit!!')

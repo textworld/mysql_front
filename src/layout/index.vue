@@ -85,7 +85,6 @@
         height: 100%;
     }
     .scrollbar-wrapper {
-
         height: 100%;
         overflow-x: hidden !important;
     }

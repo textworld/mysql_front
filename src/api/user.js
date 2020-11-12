@@ -15,3 +15,11 @@ export let login = (body) => {
         data: body
     })
 }
+
+export let getUserInfo = (params) => {
+    return request({
+        url: '/v1/user/',
+        method: 'get',
+        params: params
+    })
+}

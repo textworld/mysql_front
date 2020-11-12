@@ -1,3 +1,6 @@
+const Cookies = require('js-cookie')
+
+const USERNAME_KEY = 'user_name'
 
 const tokens = {
     admin: {
@@ -31,6 +34,7 @@ module.exports = [
         response: config => {
             const {username, password} = config.query
             if (username == "apple" && password == "ffffff") {
+                Cookies.set(USERNAME_KEY,  username)
                 return {
                     code: 2000,
                     data: {
@@ -47,6 +51,28 @@ module.exports = [
         }
     },
 
+    {
+        url: '/v1/user/',
+        type: 'get',
+        response: () => {
+            let username = Cookies.get(USERNAME_KEY)
+            if (username) {
+                return {
+                    code: 2000,
+                    data: {
+                        username: username
+                    },
+                    message: "success"
+                }
+            }
+            
+            return {
+                code: 4001,
+                data: {},
+                message: "unauth"
+            }
+        }
+    },
     // get user info
     {
         url: '/vue-element-admin/user/info\.*',
@@ -75,6 +101,7 @@ module.exports = [
         url: '/v1/user/logout',
         type: 'get',
         response: _ => {
+            Cookies.remove(USERNAME_KEY)
             return {
                 code: 20000,
                 data: 'success'

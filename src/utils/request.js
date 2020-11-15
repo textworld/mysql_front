@@ -12,11 +12,13 @@ service.interceptors.response.use(
     response => {
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
         // 否则的话抛出错误
-        if (response.code === 2000) {
-            return Promise.resolve(response);
-        } else {
-            return Promise.reject(response);
+        if (response.status === 200) {
+            let data = response.data
+            if (data.code === 2000) {
+                return Promise.resolve(response);
+            }
         }
+        return Promise.reject(response);
     },
     error => {
         alert("接口返回错误")

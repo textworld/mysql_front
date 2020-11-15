@@ -27,7 +27,6 @@ export default {
             
             return new Promise((resolve, reject) => {
                 login(loginRequest).then(resp => {
-                    console.log('login resp:', res)
                     commit('setUsername', username)
                     resolve()
                 }).catch(err => {

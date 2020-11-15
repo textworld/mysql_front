@@ -55,6 +55,11 @@ const mainRouter = [
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login')
+  },
+  {
+    path: '/login_pre',
+    name: 'LoginPre',
+    component: () => import('../views/Login_pre')
   }
 ]
 

@@ -39,8 +39,8 @@ export default {
     return {
       loading: false,
       formLogin: {
-        username: "",
-        password: "",
+        username: "apple",
+        password: "ffffff",
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -65,6 +65,7 @@ export default {
               });
             })
             .catch((err) => {
+              console.log('login exception: ', err)
               this.loading = false
               this.$message.error("用户名或者密码错误")
             });

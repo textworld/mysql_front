@@ -32,7 +32,9 @@ module.exports = [
         url: '/v1/auth/login',
         type: 'post',
         response: config => {
-            const {username, password} = config.query
+            const {username, password} = config.body
+            console.log("username: ", username)
+            console.log('password', password)
             if (username == "apple" && password == "ffffff") {
                 Cookies.set(USERNAME_KEY,  username)
                 return {
@@ -56,6 +58,7 @@ module.exports = [
         type: 'get',
         response: () => {
             let username = Cookies.get(USERNAME_KEY)
+            console.log('username', username)
             if (username) {
                 return {
                     code: 2000,

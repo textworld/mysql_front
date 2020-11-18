@@ -1,6 +1,7 @@
 import JSEncrypt from 'jsencrypt'
 import { setToken, getToken, removeToken } from '@/utils/auth'
 import { login, logout, getUserInfo } from '@/api/user'
+import _ from 'lodash'
 const rasPublicKey = "-----BEGIN PUBLIC KEY-----\n" +
     "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN\n" +
     "FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76\n" +
@@ -9,25 +10,24 @@ const rasPublicKey = "-----BEGIN PUBLIC KEY-----\n" +
     "-----END PUBLIC KEY-----"
 
 export default {
-    state: () => ({
-        username: getToken()
-
-    }),
+    state: {
+        user: {}
+    },
     mutations: {
         setUsername(state, username) {
             state.username = username
+        },
+        setUser(state, user) {
+            state.user = user
         }
     },
     actions: {
         login({ commit }, loginRequest) {
             const { username, password } = loginRequest
-            // let encrypt = new JSEncrypt();
-            // encrypt.setPublicKey(rasPublicKey)
-            // let encrypted = encrypt.encrypt(password)
-            
             return new Promise((resolve, reject) => {
                 login(loginRequest).then(resp => {
-                    commit('setUsername', username)
+                    console.log('login:', resp)
+                    commit('setUser', username)
                     resolve()
                 }).catch(err => {
                     reject(err)
@@ -46,14 +46,22 @@ export default {
                 })
             })
         },
-        getUserInfo({commit}) {
+        getUserInfo(context) {
+            let {commit, state} = context
+
             return new Promise((resolve, reject) => {
-                getUserInfo().then(resp => {
-                    console.log(resp)
-                    resolve(resp)
-                }).catch(err => {
-                    resolve()
-                })
+                if (_.isEmpty(state.user)) {
+                    getUserInfo().then(resp => {
+                        console.log(resp)
+                        commit('setUser', resp)
+                        resolve(resp)
+                    }).catch(err => {
+                        resolve()
+                    })
+                }else{
+                    resolve(state.user)
+                }
+
             })
         }
     },

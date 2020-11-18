@@ -3,13 +3,7 @@ import { getToken } from "@/utils/auth"
 import store from '@/store'
 
 router.beforeEach(async(to, from, next) => {
-    let username = store.state.user.username
-    // 如果没有username，也有可能是因为页面重新刷新引起的
-    // 这时候重新获取一边username
-    if (!username) {
-        // TOOD 模块化以后，应该如何调用dispatch
-        username = await store.dispatch('getUserInfo')
-    }
+    let username = await store.dispatch('getUserInfo')
 
     if (username) {
         // 已经登录

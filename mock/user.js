@@ -68,7 +68,7 @@ module.exports = [
                     message: "success"
                 }
             }
-            
+
             return {
                 code: 4001,
                 data: {},
@@ -106,8 +106,30 @@ module.exports = [
         response: _ => {
             Cookies.remove(USERNAME_KEY)
             return {
-                code: 20000,
+                code: 2000,
                 data: 'success'
+            }
+        }
+    },
+
+    {
+        url: '/v1/user/menu',
+        type: 'get',
+        response: _ => {
+            return {
+                code: 2000,
+                data: [
+                    {
+                        name: '权限管理',
+                        icon: 'test',
+                        children: [
+                            {
+                                name: '菜单管理',
+                                url: '/menu'
+                            }
+                        ]
+                    }
+                ]
             }
         }
     }

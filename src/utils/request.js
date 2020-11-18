@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '@/store/index'
 
 // create an axios instance
 const service = axios.create({
@@ -15,7 +16,9 @@ service.interceptors.response.use(
         if (response.status === 200) {
             let data = response.data
             if (data.code === 2000) {
-                return Promise.resolve(response);
+                return Promise.resolve(data);
+            }else if (data.code === 4001) {
+                store
             }
         }
         return Promise.reject(response);

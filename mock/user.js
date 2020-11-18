@@ -11,6 +11,8 @@ const tokens = {
     }
 }
 
+let isLogined = false
+
 const users = {
     'admin-token': {
         roles: ['admin'],
@@ -36,7 +38,7 @@ module.exports = [
             console.log("username: ", username)
             console.log('password', password)
             if (username == "apple" && password == "ffffff") {
-                Cookies.set(USERNAME_KEY,  username)
+                isLogined = true
                 return {
                     code: 2000,
                     data: {
@@ -47,7 +49,9 @@ module.exports = [
                 }
            }else{
                 return {
-                    code: 400
+                    code: 4011,
+                    data: {},
+                    message: ""
                 }
            }
         }
@@ -57,13 +61,11 @@ module.exports = [
         url: '/v1/user/',
         type: 'get',
         response: () => {
-            let username = Cookies.get(USERNAME_KEY)
-            console.log('username', username)
-            if (username) {
+            if (isLogined) {
                 return {
                     code: 2000,
                     data: {
-                        username: username
+                        username: 'apple'
                     },
                     message: "success"
                 }

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '@/store/index'
+import { MessageBox, Message } from 'element-ui'
 
 // create an axios instance
 const service = axios.create({
@@ -11,17 +12,13 @@ const service = axios.create({
 // response interceptor
 service.interceptors.response.use(
     response => {
-        // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
-        // 否则的话抛出错误
-        if (response.status === 200) {
-            let data = response.data
-            if (data.code === 2000) {
-                return Promise.resolve(data);
-            }else if (data.code === 4001) {
-                store
-            }
+        let data = response.data
+        if (data.code === 2000) {
+            return Promise.resolve(data);
+        }else if (data.code === 4001) {
+            store.commit('resetUser')
         }
-        return Promise.reject(response);
+        return Promise.reject(new Error(data.message))
     },
     error => {
         alert("接口返回错误")

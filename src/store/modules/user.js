@@ -19,6 +19,9 @@ export default {
         },
         setUser(state, user) {
             state.user = user
+        },
+        resetUser(state) {
+            state.user = {}
         }
     },
     actions: {
@@ -55,7 +58,7 @@ export default {
                         console.log(resp)
                         commit('setUser', resp)
                         resolve(resp)
-                    }).catch(err => {
+                    }).catch(_ => {
                         resolve()
                     })
                 }else{

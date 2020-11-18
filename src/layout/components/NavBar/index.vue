@@ -2,7 +2,7 @@
     <div class="nav">
         <div style="float: right;margin-right: 10px;">
 
-            <el-dropdown @command="handleCommand">
+            <el-dropdown >
                 <span class="el-dropdown-link">
                     zhangwenbing <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>

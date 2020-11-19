@@ -1,5 +1,5 @@
 <template>
-    <div class="nav">
+    <div class="nav-content">
         <div style="float: right;margin-right: 10px;">
 
             <el-dropdown >
@@ -35,13 +35,13 @@
 </script>
 
 <style scoped>
-    .nav{
-        height: 50px;
-        line-height: 50px;
-        overflow: hidden;
+    .nav-content{
+        width: 100%;
+        height: 100%;
         position: relative;
-        background: #fff;
-        -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-        box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+        overflow: hidden;
+    }
+    .el-dropdown-link:hover{
+        cursor: pointer;
     }
 </style>

@@ -164,7 +164,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .app-container {
         .roles-table {
             margin-top: 30px;

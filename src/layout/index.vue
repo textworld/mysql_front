@@ -1,13 +1,21 @@
 <template>
-    <div class="app-wrapper">
-        <Sidebar></Sidebar>
-        <div class="main-container">
-            <Navbar></Navbar>
-            <div class="app-main">
+    <el-container style="height: 500px; border: 1px solid #eee">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246); ">
+            <Sidebar></Sidebar>
+        </el-aside>
+
+        <el-container>
+            <el-header style="text-align: right; font-size: 12px" class="nav">
+                <Navbar></Navbar>
+            </el-header>
+
+
+            <el-main>
                 <router-view></router-view>
-            </div>
-        </div>
-    </div>
+            </el-main>
+
+        </el-container>
+    </el-container>
 </template>
 
 <script>
@@ -97,5 +105,13 @@
     .el-submenu{
         width: 200px;
         overflow: hidden;
+    }
+
+    .nav{
+        overflow: hidden;
+        position: relative;
+        background: #fff;
+        -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+        box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
     }
 </style>

@@ -1,14 +1,8 @@
 <template>
     <div class="sidebar-container">
         <el-scrollbar wrap-class="scrollbar-wrapper">
-            <el-menu
-                    default-active="/home"
-                    class="el-menu-vertical-demo"
-                    background-color="rgb(48, 65, 86)"
-                    text-color="#fff"
-                    active-text-color="#ffd04b"
-                    router
-            >
+            <el-menu :default-active="routePath" class="el-menu-vertical-demo" background-color="rgb(48, 65, 86)"
+                    text-color="#fff" active-text-color="#ffd04b" router>
                 <div v-for="(submenu, key) in menuRouts" :key="key">
                     <template v-if="!submenu.children || submenu.children.length == 0">
                         <el-menu-item :index="resolvePath('/', submenu.path)">
@@ -17,9 +11,7 @@
                     </template>
 
                     <template v-else>
-                        <el-submenu
-                                :index="resolvePath('/', submenu.path)"
-                        >
+                        <el-submenu :index="resolvePath('/', submenu.path)">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
                                 <span>{{routeName(submenu)}}</span>
@@ -29,8 +21,7 @@
                                 <el-menu-item
                                         v-for="(child, cKey) in submenu.children"
                                         :key="cKey"
-                                        :index="resolvePath(submenu.path, child.path)"
-                                >
+                                        :index="resolvePath(submenu.path, child.path)">
                                     {{routeName(child)}}
                                 </el-menu-item>
                             </el-menu-item-group>
@@ -38,7 +29,6 @@
                         </el-submenu>
                     </template>
                 </div>
-
             </el-menu>
         </el-scrollbar>
     </div>
@@ -61,10 +51,7 @@
         },
         created() {
             console.log(this.routePath);
-            getMenus().then(resp => {
-                console.log('menus', resp)
-
-            })
+            console.log(this.menuRouts)
         },
         data() {
             return {

@@ -26,7 +26,7 @@ export let getUserInfo = (params) => {
 
 export let getMenus = (params) => {
     return request({
-        url: '/v1/user/menu/',
+        url: '/v1/menu/',
         method: 'get',
         params: params
     })

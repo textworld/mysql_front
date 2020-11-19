@@ -62,7 +62,8 @@
         created() {
             console.log(this.routePath);
             getMenus().then(resp => {
-                console.log(resp)
+                console.log('menus', resp)
+
             })
         },
         data() {

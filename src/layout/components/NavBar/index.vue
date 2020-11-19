@@ -6,7 +6,7 @@
                 <span class="el-dropdown-link">
                     zhangwenbing <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
-                
+
                 <el-dropdown-menu slot="dropdown">
                     <router-link to="/profile/index">
                         <el-dropdown-item>Profile</el-dropdown-item>
@@ -23,7 +23,12 @@
         name: "index",
         methods: {
             logout(){
-                console.log('logout')
+                this.$store.dispatch('logout').then(_ => {
+                    console.log('logout success')
+                    this.$router.push({
+                        path: '/login'
+                    })
+                })
             }
         }
     }

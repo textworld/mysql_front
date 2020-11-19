@@ -61,6 +61,7 @@ module.exports = [
         url: '/v1/user/',
         type: 'get',
         response: () => {
+            console.log('get user')
             if (isLogined) {
                 return {
                     code: 2000,
@@ -106,7 +107,8 @@ module.exports = [
         url: '/v1/user/logout',
         type: 'get',
         response: _ => {
-            Cookies.remove(USERNAME_KEY)
+            console.log('logout in mock api')
+            isLogined = false
             return {
                 code: 2000,
                 data: 'success'
@@ -115,7 +117,7 @@ module.exports = [
     },
 
     {
-        url: '/v1/user/menu',
+        url: '/v1/menu',
         type: 'get',
         response: _ => {
             return {
@@ -124,10 +126,15 @@ module.exports = [
                     {
                         name: '权限管理',
                         icon: 'test',
+                        url: '/permission',
                         children: [
                             {
                                 name: '菜单管理',
                                 url: '/menu'
+                            },
+                            {
+                                name: '角色管理',
+                                url: '/role'
                             }
                         ]
                     }

@@ -40,8 +40,7 @@ export default {
         logout({ commit }) {
             return new Promise((resolve, reject) => {
                 logout().then(resp => {
-                    removeToken()
-                    commit('setUsername', '')
+                    commit('resetUser')
                     resolve()
                 }).catch(err => {
                     console.error('failed to logout', err)

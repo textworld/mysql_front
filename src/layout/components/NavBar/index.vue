@@ -40,6 +40,7 @@
         height: 100%;
         position: relative;
         overflow: hidden;
+        line-height: 60px;
     }
     .el-dropdown-link:hover{
         cursor: pointer;

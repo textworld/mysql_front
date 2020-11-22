@@ -13,6 +13,8 @@ function registerRoutes(app) {
     const mocksForServer = mocks.map(route => {
         return responseFake(route.url, route.type, route.response)
     })
+    let r = new RegExp('/api/v1/schema_info/mysql_schema/\\d+/get_process_list/$')
+    console.log(r.test('/api/v1/schema_info/mysql_schema/1/get_process_list/'))
     for (const mock of mocksForServer) {
         app[mock.type](mock.url, mock.response)
         mockLastIndex = app._router.stack.length

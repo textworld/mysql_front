@@ -3,9 +3,11 @@ const { param2Obj } = require('./utils')
 
 const user = require('./user')
 const bill = require('./bill')
+const schemaInfo = require('./schema_info')
 const mocks = [
     ...user,
     ...bill,
+    ...schemaInfo
 ]
 
 // for front mock

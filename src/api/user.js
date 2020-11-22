@@ -10,7 +10,7 @@ export function logout(params){
 
 export let login = (body) => {
     return request({
-        url: '/v1/auth/login',
+        url: '/v1/auth/login/',
         method: 'post',
         data: body
     })
@@ -18,7 +18,7 @@ export let login = (body) => {
 
 export let getUserInfo = (params) => {
     return request({
-        url: '/v1/user/',
+        url: '/v1/auth/user_info/',
         method: 'get',
         params: params
     })

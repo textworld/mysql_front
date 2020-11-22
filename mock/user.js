@@ -58,7 +58,7 @@ module.exports = [
     },
 
     {
-        url: '/v1/user/',
+        url: '/v1/auth/user_info/',
         type: 'get',
         response: () => {
             console.log('get user')

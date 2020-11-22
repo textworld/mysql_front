@@ -3,8 +3,7 @@
         <el-dialog
                 title="提示"
                 :visible.sync="dialogVisible"
-                width="70%"
-                :before-close="handleClose">
+                width="70%">
             <div>
                 <p>
                     {{schema.host_ip}}-{{schema.port}}
@@ -58,105 +57,61 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button type="text" size="small">kill</el-button>
+                            <el-button type="text" size="small" :loading="scope.row.loading" @click="killProcess(scope.row)">kill</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-            </span>
+
         </el-dialog>
     </div>
 </template>
 
 <script>
-    let processListData = [
-        {
-            "id": 23,
-            "user": "root",
-            "host": "172.17.0.1:59474",
-            "db": null,
-            "command": "Sleep",
-            "time": 1182,
-            "state": "",
-            "info": null
-        },
-        {
-            "id": 26,
-            "user": "root",
-            "host": "172.17.0.1:59480",
-            "db": "zst_online_server",
-            "command": "Sleep",
-            "time": 1093,
-            "state": "",
-            "info": null
-        },
-        {
-            "id": 28,
-            "user": "root",
-            "host": "172.17.0.1:59484",
-            "db": "zst_online_server",
-            "command": "Sleep",
-            "time": 997,
-            "state": "",
-            "info": null
-        },
-        {
-            "id": 29,
-            "user": "root",
-            "host": "172.17.0.1:59486",
-            "db": "zst_online_server",
-            "command": "Sleep",
-            "time": 991,
-            "state": "",
-            "info": null
-        },
-        {
-            "id": 38,
-            "user": "root",
-            "host": "172.17.0.1:59508",
-            "db": "zst_online_server",
-            "command": "Query",
-            "time": 0,
-            "state": "starting",
-            "info": "show processlist"
-        }
-    ]
+    import {getProcessList, killProcessById} from '@/api/schema_info'
+
     export default {
         name: "process_list",
-        props: {
-            schema: {
-                required: true,
-                type: Object
-            },
-        },
         data() {
             return {
                 dialogVisible: false,
-                processList: processListData
+                processList: [],
+                schema: {}
             };
         },
         watch: {
-            schema_id(newVal, oldVal) {
-                if (newVal > 0 && newVal !== oldVal) {
-                    console.log('show process list')
-
-                }
+            dialogVisible(){
+                console.log('dialogVisible', this.dialogVisible)
             }
         },
         methods: {
-            handleClose(done) {
-                this.$confirm('确认关闭？')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {
-                    });
+            killProcess(row) {
+                row.loading = true
+                console.log(row)
+                killProcessById(this.schema.id, row.id).then(_ => {
+                    this.$message.info('操作成功')
+                }).finally(_ => {
+                    row.loading = false
+                    this.showProcessList(this.schema)
+                })
             },
-            showProcessList(){
-                this.dialogVisible = true
+            showProcessList(schema){
+                this.schema = schema
+                return new Promise((resolve) => {
+                    getProcessList(schema.id).then(resp => {
+                        this.processList = resp.data
+                        _.forEach(this.processList, (v, k) => {
+                            this.$set(this.processList[k], 'loading', false)
+                        })
+                        this.dialogVisible = true
+                    }).catch(err => {
+                        if (err) {
+                            this.$message.error("无法获取process list")
+                        }
+                    }).finally(() => {
+                        resolve()
+                    })
+                })
             }
         }
     }

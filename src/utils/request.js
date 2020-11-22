@@ -18,12 +18,12 @@ service.interceptors.response.use(
         }else if (data.code === 4001) {
             store.commit('resetUser')
         }
-        return Promise.reject(new Error(data.message))
+        return Promise.reject(new Error(data))
     },
     error => {
-        alert("接口返回错误")
+        Message.error('服务器开小差啦')
         console.error(error)
-        return Promise.reject(error);
+        return Promise.reject();
     }
 )
 

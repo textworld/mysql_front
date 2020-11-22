@@ -22,28 +22,16 @@ module.exports = {
     devServer: {
         port: port,
         open: true,
-        // proxy: {
-        //     '/api': {
-        //         target: 'http://localhost:8888',
-        //         changeOrigin: true
-        //     },
-        //     // '/login': {
-        //     //     target: 'http://localhost:8888',
-        //     //     changeOrigin: true
-        //     // },
-        //     // '/logout': {
-        //     //     target: 'http://localhost:8888',
-        //     //     changeOrigin: true
-        //     // },
-        //     // '/apollo-server': {
-        //     //     target: 'http://localhost:8888',
-        //     //     changeOrigin: true
-        //     // }
-        // },
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8010',
+                changeOrigin: true
+            },
+        },
         overlay: {
             warnings: false,
             errors: true
         },
-        before: require('./mock/mock-server.js')
+        //before: require('./mock/mock-server.js')
     }
 }

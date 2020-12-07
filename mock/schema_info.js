@@ -253,8 +253,25 @@ module.exports = [
         url: '/v1/schema_info/mysql_schema/install_mysql/',
         type: 'post',
         response: config => {
+            let maxId = results[results.length-1].id
+            let body = config.body
+            if (_.isEmpty(config.body)) {
+                return  {
+                    code: 40000,
+                    data: {},
+                    message: "invalid data"
+                }
+            }
             results.push({
-
+                "id": maxId+1,
+                "gmt_update": "2020-11-21T04:07:16.337666Z",
+                "gmt_create": "2020-11-21T04:07:16.337666Z",
+                "host_ip": body.host_ip,
+                "port": body.port,
+                "schema": body.schema,
+                "role": "master",
+                "status": "pending",
+                "phy_host": null
             })
             return {
                 code: 2000,

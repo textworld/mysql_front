@@ -7,7 +7,6 @@
                         v-model="searchBar.schema"
                         :fetch-suggestions="querySearch"
                         placeholder="请输入内容"
-                        @select=""
                 ></el-autocomplete>
             </el-form-item>
             <el-form-item label="状态">
@@ -73,7 +72,7 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
         </el-pagination>
-        <ProcessListDialog ref="process_list_dialog"></ProcessListDialog>
+        <ProcessListDialog ref="process_list_dialog" :schema="currentSchema"></ProcessListDialog>
     </div>
 </template>
 
@@ -86,6 +85,7 @@
         components: {ProcessListDialog},
         data() {
             return {
+                currentSchema: {},
                 tableLoading: false,
                 currentPage4: 4,
                 tableData: [],

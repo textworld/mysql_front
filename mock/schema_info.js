@@ -207,7 +207,6 @@ module.exports = [
         url: '/v1/schema_info/mysql_schema/',
         type: 'get',
         response: config => {
-            console.log('mysql_schema', config)
             let filtered = results.filter(r => {
                 if (_.isEmpty(config.query.schema)) {
                     return true

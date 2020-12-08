@@ -54,6 +54,18 @@ export const menuRouts = [
                 name: 'MySQLManage',
                 meta: { title: 'mysql实例' },
                 component: () => import('@/views/schema_manage/mysql')
+            },
+            {
+                path: 'mysql_detail',
+                name: 'MySQLDetail',
+                meta: { title: 'detail' },
+                component: () => import('@/views/schema_manage/detail')
+            },
+            {
+                path: 'mysql_task',
+                name: 'MySQLTask',
+                meta: { title: '任务列表' },
+                component: () => import('@/views/schema_manage/task')
             }
         ]
     }

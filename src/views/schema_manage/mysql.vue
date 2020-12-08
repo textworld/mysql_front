@@ -1,25 +1,31 @@
 <template>
     <div>
-        <el-form :inline="true" :model="searchBar" class="demo-form-inline">
-            <el-form-item label="schema">
-                <el-autocomplete
-                        class="inline-input"
-                        v-model="searchBar.schema"
-                        :fetch-suggestions="querySearch"
-                        placeholder="请输入内容"
-                ></el-autocomplete>
-            </el-form-item>
-            <el-form-item label="状态">
-                <el-select v-model="searchBar.status" placeholder="实例状态" clearable>
-                    <el-option label="上线" value="online"></el-option>
-                    <el-option label="装机中" value="pending"></el-option>
-                    <el-option label="下线" value="offline"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="doSearch">查询</el-button>
-            </el-form-item>
-        </el-form>
+        <el-row type="flex" class="row-bg" justify="space-between">
+            <el-form :inline="true" :model="searchBar" class="demo-form-inline">
+                <el-form-item label="schema">
+                    <el-autocomplete
+                            class="inline-input"
+                            v-model="searchBar.schema"
+                            :fetch-suggestions="querySearch"
+                            placeholder="请输入内容"
+                    ></el-autocomplete>
+                </el-form-item>
+                <el-form-item label="状态">
+                    <el-select v-model="searchBar.status" placeholder="实例状态" clearable>
+                        <el-option label="上线" value="online"></el-option>
+                        <el-option label="装机中" value="pending"></el-option>
+                        <el-option label="下线" value="offline"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="doSearch">查询</el-button>
+                </el-form-item>
+            </el-form>
+
+            <div>
+                <el-button type="primary" @click="showInstallForm">安装MySQL</el-button>
+            </div>
+        </el-row>
 
         <el-table
                 v-loading="tableLoading"
@@ -73,16 +79,18 @@
                 :total="total">
         </el-pagination>
         <ProcessListDialog ref="process_list_dialog" :schema="currentSchema"></ProcessListDialog>
+        <InstallMySQLDialog ref="install_mysql_dialog" @success="onInstallSuccess"></InstallMySQLDialog>
     </div>
 </template>
 
 <script>
     import ProcessListDialog from './process_list'
     import {getSchemaNameList, getSchemas} from '@/api/schema_info'
+    import InstallMySQLDialog from './install_mysql_modal'
     import { Loading } from 'element-ui';
     export default {
         name: "index",
-        components: {ProcessListDialog},
+        components: {ProcessListDialog, InstallMySQLDialog},
         data() {
             return {
                 currentSchema: {},
@@ -167,6 +175,12 @@
                 this.$refs.process_list_dialog.showProcessList(row).then(_ => {
                     loading.close();
                 })
+            },
+            showInstallForm(){
+                this.$refs.install_mysql_dialog.show()
+            },
+            onInstallSuccess() {
+                this.doSearch()
             }
         }
     }

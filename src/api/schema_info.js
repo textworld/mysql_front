@@ -32,3 +32,11 @@ export function killProcessById(schemaId, processId) {
         }
     })
 }
+
+export function installMySQL(instance) {
+    return request({
+        url: '/v1/schema_info/mysql_schema/install_mysql/',
+        method: 'post',
+        data: instance
+    })
+}

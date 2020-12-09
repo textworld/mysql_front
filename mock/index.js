@@ -4,10 +4,12 @@ const { param2Obj } = require('./utils')
 const user = require('./user')
 const bill = require('./bill')
 const schemaInfo = require('./schema_info')
+const ansibleTaskAPI = require('./ansible_task')
 const mocks = [
     ...user,
     ...bill,
-    ...schemaInfo
+    ...schemaInfo,
+    ...ansibleTaskAPI
 ]
 
 // for front mock

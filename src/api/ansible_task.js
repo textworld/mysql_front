@@ -7,3 +7,10 @@ export function queryAnsibleTask(params) {
         params: params
     })
 }
+
+export function queryAnsibleTaskSteps(task_id) {
+    return request({
+        url: `/v1/schema_info/ansible_task/${task_id}/steps/`,
+        type: 'get'
+    })
+}

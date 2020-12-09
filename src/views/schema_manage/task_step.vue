@@ -9,11 +9,18 @@
 <script>
     export default {
         name: "task_step",
+        props: {
+          task_id: {
+              type: Number,
+              require: true
+          }
+        },
         data(){
             return {
                 dialogVisible: false
             }
-        }
+        },
+
     }
 </script>
 

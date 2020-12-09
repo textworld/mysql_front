@@ -65,7 +65,7 @@ export const menuRouts = [
                 path: 'mysql_task',
                 name: 'MySQLTask',
                 meta: { title: '任务列表' },
-                component: () => import('@/views/schema_manage/task')
+                component: () => import('@/views/schema_manage/ansible_task')
             }
         ]
     }

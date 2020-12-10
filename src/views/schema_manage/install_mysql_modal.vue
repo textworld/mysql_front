@@ -56,11 +56,12 @@
                 this.$refs['install_form'].validate((valid) => {
                     if (valid) {
                         installMySQL(this.form).then(resp => {
-                            if (resp.code === 2000) {
-                                this.$message.success('安装成功')
-                                this.hide()
-                                this.$emit('success')
-                            }
+                            this.$message.success('安装成功')
+                            this.hide()
+                            this.$emit('success')
+                            this.form.host_ip = ""
+                            this.form.schema = ""
+                            this.form.port = 3306
                         }).catch(err => {
                             console.error('failed to make install mysql', err)
                             this.$message.error('安装失败')

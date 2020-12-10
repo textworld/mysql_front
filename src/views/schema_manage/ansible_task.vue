@@ -37,16 +37,19 @@
             <el-table-column
                     label="任务详情">
                 <template slot-scope="scope">
-                    <el-button size="mini" @click="" type="primary">任务详情</el-button>
+                    <el-button size="mini" @click="showStepModal(scope.row.id)" type="primary">任务详情</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <Steps ref="task_steps"></Steps>
     </div>
 </template>
 
 <script>
     import {queryAnsibleTask} from '@/api/ansible_task'
+    import Steps from './task_step'
     export default {
+        components: {Steps},
         data() {
             return {
                 tableData: []
@@ -63,6 +66,9 @@
                 }).catch(err => {
                     this.$message.info('加载失败')
                 })
+            },
+            showStepModal(taskId){
+                this.$refs.task_steps.loadTaskSteps(taskId)
             }
         }
     }

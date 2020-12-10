@@ -7,7 +7,7 @@ for (let i = 0; i < 10; i++) {
     taskSteps.push(Mock.mock({
         id: '@increment',
         task_id: Mock.Random.string(20),
-        timestamp: +Mock.Random.date('T'),
+        timestamp: Mock.Random.datetime(),
         name: '@title(5, 10)',
         'changed|1': [true, false],
         'status|1': ['success', 'failed'],
@@ -41,6 +41,7 @@ module.exports = [
         url: '/v1/schema_info/ansible_task/\\d+/steps/',
         type: 'get',
         response: config => {
+
             return {
                 code: 2000,
                 data: taskSteps

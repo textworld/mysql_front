@@ -68,6 +68,18 @@ export const menuRouts = [
                 component: () => import('@/views/schema_manage/ansible_task')
             }
         ]
+    },
+    {
+        path: '/slowsql',
+        meta: { title: '慢SQL管理' },
+        component: () => import('@/layout/index'),
+        children: [
+            {
+                path: 'index',
+                meta: { title: '列表' },
+                component: () => import('@/views/slowsql/index')
+            }
+        ]
     }
 ]
 

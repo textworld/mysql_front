@@ -5,11 +5,13 @@ const user = require('./user')
 const bill = require('./bill')
 const schemaInfo = require('./schema_info')
 const ansibleTaskAPI = require('./ansible_task')
+const testAPI = require('./test_api')
 const mocks = [
     ...user,
     ...bill,
     ...schemaInfo,
-    ...ansibleTaskAPI
+    ...ansibleTaskAPI,
+    ...testAPI
 ]
 
 // for front mock

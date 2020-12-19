@@ -188,8 +188,9 @@ const process_list = [
     }
 ]
 
+// 导出了一个数组
 module.exports = [
-    //获取数据库名
+    // mock API: 获取数据库名
     {
         url: '/v1/schema_info/mysql_schema/get_distinct_schema_names/',
         type: 'get',
@@ -206,6 +207,8 @@ module.exports = [
     {
         url: '/v1/schema_info/mysql_schema/',
         type: 'get',
+        // config 包含了http request信息
+        // 比如说get参数, post的数据
         response: config => {
             let filtered = results.filter(r => {
                 if (_.isEmpty(config.query.schema)) {

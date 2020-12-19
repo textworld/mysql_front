@@ -71,11 +71,12 @@ export const menuRouts = [
     },
     {
         path: '/slowsql',
-        meta: { title: '慢SQL管理' },
+        meta: {title: '慢SQL管理'},
         component: () => import('@/layout/index'),
         children: [
             {
-                path: 'index',
+                path: 'list',
+                name: 'SlowSQLList',
                 meta: { title: '列表' },
                 component: () => import('@/views/slowsql/index')
             }

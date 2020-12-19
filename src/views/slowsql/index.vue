@@ -2,9 +2,9 @@
     <div>
         <el-row type="flex" class="row-bg" justify="space-between">
             <el-form :inline="true" :model="searchBar" class="demo-form-inline">
-                <el-form-item label="时间范围">
+                <el-form-item label="选择时间">
                     <el-date-picker
-                            v-model="searchBar.range"
+                            v-model="timeRange"
                             type="datetimerange"
                             :picker-options="pickerOptions"
                             range-separator="至"
@@ -13,20 +13,23 @@
                             align="right">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item label="库名">
-                    <SchemaSearch v-model="searchBar.schema"></SchemaSearch>
+                <el-form-item label="schema">
+                    <SchemaSearch
+                            v-model="searchBar.schema"
+                            placeholder="请输入内容"></SchemaSearch>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="doSearch">查询</el-button>
                 </el-form-item>
             </el-form>
+
             <div>
                 <el-switch
-                        v-model="isAggByFinger"
+                        v-model="isAggrByFingerPrinter"
                         active-text="聚合"
                         inactive-text="不聚合">
                 </el-switch>
-                <el-tooltip class="item" effect="dark" content="选择聚合后，慢SQL将会按照指纹进行折叠" placement="top-start">
+                <el-tooltip content="一些说明文字" placement="top">
                     <i class="el-icon-question"></i>
                 </el-tooltip>
             </div>
@@ -37,11 +40,6 @@
                 :data="tableData"
                 border
                 style="width: 100%;margin-bottom: 10px;">
-            <el-table-column
-                prop="@timestamp"
-                label="时间"
-                width="180">
-            </el-table-column>
 
             <el-table-column
                     prop="schema"
@@ -51,23 +49,31 @@
 
             <el-table-column
                     prop="host_ip"
-                    label="实例"
+                    label="ip"
                     width="180">
             </el-table-column>
             <el-table-column
-                    prop="sql"
-                    label="SQL">
+                    prop="port"
+                    label="端口"
+                    width="180">
             </el-table-column>
 
             <el-table-column
                     prop="role"
-                    label="执行时间"
+                    label="角色"
                     width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="status"
+                    label="状态">
             </el-table-column>
 
             <el-table-column
-                    prop="status"
-                    label="执行IP">
+                    label="操作"
+                    width="100">
+                <template slot-scope="scope">
+
+                </template>
             </el-table-column>
         </el-table>
 
@@ -84,13 +90,31 @@
 </template>
 
 <script>
-    import SchemaSearch from '@/components/schema_search'
-    import * as moment from 'moment';
+    import {getSchemaNameList, getSchemas} from '@/api/schema_info'
+    import { Loading } from 'element-ui';
+    import SchemaSearch from "@/components/SchemaSearch";
+    import * as moment from 'moment'
     export default {
         name: "index",
-        components: { SchemaSearch },
-        data(){
+        components: {SchemaSearch},
+        data() {
             return {
+                isAggrByFingerPrinter: false,
+                currentSchema: {},
+                tableLoading: false,
+                currentPage4: 4,
+                tableData: [],
+                total: 0,
+                timeRange: [],
+                searchBar: {
+                    schema: "",
+                    status: "",
+                    page_size: 100,
+                    page_num: 1,
+                    start: '',
+                    end: ''
+                },
+                schemaList: [],
                 pickerOptions: {
                     shortcuts: [{
                         text: '最近一周',
@@ -117,34 +141,59 @@
                             picker.$emit('pick', [start, end]);
                         }
                     }]
-                },
-                searchBar: {
-                    range: [],
-                    schema: "",
-                    instance: "",
-                    page_size: 100,
-                    page_num: 1
-                },
-                total: 0,
-                tableLoading: false,
-                tableData: [],
-                isAggByFinger: false
+                }
+            }
+        },
+        created() {
+            this.updateByQuery(this.$route)
+            getSchemaNameList().then(resp => {
+                if(resp.code === 2000) {
+                    this.schemaList = resp.data
+                }
+            })
+        },
+        watch: {
+            $route(to, from) {
+                this.updateByQuery(to)
             }
         },
         methods: {
+            updateByQuery(route){
+                if(route.query.page_size) {
+                    this.searchBar.page_size = parseInt(route.query.page_size)
+                }
+                if (route.query.page_num) {
+                    this.searchBar.page_num = parseInt(route.query.page_num)
+                }
+                this.doSearch()
+            },
             doSearch(){
-                console.log(this.searchBar)
-                console.log(encodeURI(moment(this.searchBar.range[0]).format()))
-            },
-            handleSizeChange() {
+                console.log('do search')
+                console.log(this.timeRange)
+                console.log(moment(this.timeRange[0]).format())
+                this.searchBar.start = moment(this.timeRange[0]).format()
+                this.searchBar.end = moment(this.timeRange[1]).format()
 
             },
-            handleCurrentChange() {
+            handleSizeChange(val) {;
+                let queryCopy = _.cloneDeep(this.$route.query)
+                queryCopy.page_size = val
+                this.updateRouteQuery(queryCopy)
+            },
+            handleCurrentChange(val) {
+                let queryCopy = _.cloneDeep(this.$route.query)
+                queryCopy.page_num = val
+                this.updateRouteQuery(queryCopy)
+            },
+            updateRouteQuery(query) {
+                this.$router.push({
+                    path: this.$route.path,
+                    query: query
+                }).catch(err => {
 
+                })
             }
         }
-
-
     }
 </script>
 

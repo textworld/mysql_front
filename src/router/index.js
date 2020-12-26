@@ -79,7 +79,19 @@ export const menuRouts = [
                 name: 'SlowSQLList',
                 meta: { title: '列表' },
                 component: () => import('@/views/slowsql/index')
-            }
+            },
+            {
+                path: 'charts',
+                name: 'HighCharts',
+                meta: { title: '图表' },
+                component: () => import('@/views/slowsql/dashboard')
+            },
+            {
+                path: 'simple',
+                name: 'HighCharts',
+                meta: { title: '例子' },
+                component: () => import('@/views/slowsql/simple')
+            },
         ]
     }
 ]

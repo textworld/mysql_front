@@ -41,38 +41,20 @@
                 border
                 style="width: 100%;margin-bottom: 10px;">
 
-            <el-table-column
-                    prop="schema"
-                    label="库名"
-                    width="180">
-            </el-table-column>
+            <el-table-column prop="schema" label="库名" width="180"></el-table-column>
 
-            <el-table-column
-                    prop="host_ip"
-                    label="ip"
-                    width="180">
-            </el-table-column>
-            <el-table-column
-                    prop="port"
-                    label="端口"
-                    width="180">
-            </el-table-column>
+            <el-table-column prop="host" label="ip" width="180"></el-table-column>
 
-            <el-table-column
-                    prop="role"
-                    label="角色"
-                    width="180">
-            </el-table-column>
-            <el-table-column
-                    prop="status"
-                    label="状态">
-            </el-table-column>
+            <el-table-column prop="query_sql" label="sql" width="180"></el-table-column>
+            
+            <el-table-column prop="query_time" label="执行时间"></el-table-column>
 
-            <el-table-column
-                    label="操作"
-                    width="100">
+            <el-table-column prop="rows_examined" label="rows_examined"></el-table-column>
+
+            <el-table-column prop="rows_sent" label="rows_sent"></el-table-column>
+
+            <el-table-column label="操作" width="100">
                 <template slot-scope="scope">
-
                 </template>
             </el-table-column>
         </el-table>
@@ -90,7 +72,7 @@
 </template>
 
 <script>
-    import {getSchemaNameList, getSchemas} from '@/api/schema_info'
+    import {querySlowsql} from '@/api/slowsql'
     import { Loading } from 'element-ui';
     import SchemaSearch from "@/components/SchemaSearch";
     import * as moment from 'moment'
@@ -105,7 +87,7 @@
                 currentPage4: 4,
                 tableData: [],
                 total: 0,
-                timeRange: [],
+                timeRange: [new Date()- 3600 * 1000 * 24 * 7, new Date()],
                 searchBar: {
                     schema: "",
                     status: "",
@@ -114,7 +96,6 @@
                     start: '',
                     end: ''
                 },
-                schemaList: [],
                 pickerOptions: {
                     shortcuts: [{
                         text: '最近一周',
@@ -146,11 +127,6 @@
         },
         created() {
             this.updateByQuery(this.$route)
-            getSchemaNameList().then(resp => {
-                if(resp.code === 2000) {
-                    this.schemaList = resp.data
-                }
-            })
         },
         watch: {
             $route(to, from) {
@@ -173,7 +149,10 @@
                 console.log(moment(this.timeRange[0]).format())
                 this.searchBar.start = moment(this.timeRange[0]).format()
                 this.searchBar.end = moment(this.timeRange[1]).format()
-
+                querySlowsql(this.searchBar).then(resp => {
+                    this.total = resp.data.count
+                    this.tableData = resp.data.results
+                })
             },
             handleSizeChange(val) {;
                 let queryCopy = _.cloneDeep(this.$route.query)

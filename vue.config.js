@@ -22,12 +22,12 @@ module.exports = {
     devServer: {
         port: port,
         open: true,
-        // proxy: {
-        //     '/api': {
-        //         target: 'http://localhost:8010',
-        //         changeOrigin: true
-        //     },
-        // },
+        proxy: {
+            '/api/zst_mysql/v1/slowsql/query/': {
+                target: 'http://localhost:9099',
+                changeOrigin: true
+            },
+        },
         overlay: {
             warnings: false,
             errors: true

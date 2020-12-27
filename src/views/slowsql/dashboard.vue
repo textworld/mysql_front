@@ -1,21 +1,38 @@
 <template>
   <div>
-    <div
-      id="container"
-      class="container"
-      style="width: 100%; height: 400px"
-    ></div>
+    <div id="container" style="width: 100%; height: 300px"></div>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <highcharts :options="schemaPieOptions"></highcharts>
+      </el-col>
+      <el-col :span="12">
+        <el-table
+          :data="tableData"
+          border
+          style="width: 100%; margin-bottom: 10px"
+          height="400"
+        >
+        <el-table-column prop="schema" label="库名" width="80"></el-table-column>
+        <el-table-column prop="finger" label="finger"></el-table-column>
+        <el-table-column prop="count" label="count" width="80"></el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import Highcharts from "highcharts";
 import stockInit from "highcharts/modules/stock";
+stockInit(Highcharts);
+
 import { Chart } from "highcharts-vue";
 
 import $ from "jquery";
 
-stockInit(Highcharts);
+import * as moment from "moment";
+
+import { getAggsBySchema, getAggsByDate, getTop10 } from "@/api/slowsql";
 
 export default {
   components: {
@@ -23,167 +40,146 @@ export default {
   },
   data() {
     return {
+      tableData: [],
+      queryParams: {
+        start: "",
+        end: "",
+      },
       stockChart: null,
-
-      chartOptions: {
+      timeRange: [new Date() - 3600 * 1000 * 24 * 7, new Date()],
+      schemaPieOptions: {
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: "pie",
+        },
+        title: {
+          text: "各数据库慢SQL占比",
+        },
+        tooltip: {
+          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: "pointer",
+            dataLabels: {
+              enabled: true,
+              format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+              style: {
+                color:
+                  (Highcharts.theme && Highcharts.theme.contrastTextColor) ||
+                  "black",
+              },
+            },
+          },
+        },
         series: [
           {
-            data: [1, 2, 3], // sample data
+            name: "库名",
+            colorByPoint: true,
+            data: [
+              {
+                name: "Chrome",
+                y: 61.41,
+              },
+            ],
           },
         ],
       },
     };
   },
+  created() {
+    this.updateQueryParams = _.debounce(
+      function (startMsFloat, endMsFloat) {
+        console.log("update time range");
+        let startTime = _.toInteger(startMsFloat) / 1000;
+        let endTime = _.toInteger(endMsFloat) / 1000;
+        this.queryParams.start = moment.unix(startTime).format();
+        this.queryParams.end = moment.unix(endTime).format();
+        console.log(this.queryParams);
+        this.$emit("updateQueryParams");
+      }.bind(this),
+      250
+    );
+    this.$on(
+      "updateQueryParams",
+      function () {
+        console.log("query params has changed");
+        this.doSearch();
+      }.bind(this)
+    );
+  },
   mounted() {
     console.log("dddd");
     this.createChart();
+    this.doSearch();
   },
+
   methods: {
     createChart() {
+      let that = this;
       Highcharts.setOptions({
         lang: {
           rangeSelectorZoom: "",
         },
       });
-      $.getJSON(
-        "https://demo-live-data.highcharts.com/aapl-c.json",
-        function (data) {
-          // Create the chart
-          this.stockChart = new Highcharts.stockChart("container", {
-            rangeSelector: {
-              selected: 1,
-            },
+      getAggsByDate(this.queryParams).then((resp) => {
+        let chartData = [];
+        _.forEach(resp.data, (v) => {
+          chartData.push([moment(v["date"]).unix() * 1000, v["date_count"]]);
+        });
+        console.log("chartData", chartData);
+        this.stockChart = new Highcharts.stockChart("container", {
+          rangeSelector: {
+            selected: 1,
+          },
 
-            title: {
-              text: "AAPL Stock Price",
-            },
+          title: {
+            text: "每日慢SQL数量",
+          },
 
-            xAxis: {
-              events: {
-                // 范围选择器改变的范围最终是改变坐标轴的范围，所以我们监听坐标的极值变更事件函数即可
-                afterSetExtremes: function (e) {
-                  // e.min 和 e.max 为坐标轴当前的范围
-                  console.log(e.min, e.max);
-                },
+          xAxis: {
+            events: {
+              // 范围选择器改变的范围最终是改变坐标轴的范围，所以我们监听坐标的极值变更事件函数即可
+              afterSetExtremes: function (e) {
+                // e.min 和 e.max 为坐标轴当前的范围
+                console.log(e.min, e.max);
+                that.updateQueryParams(e.min, e.max);
               },
             },
-            series: [
-              {
-                name: "AAPL",
-                data: data,
-                tooltip: {
-                  valueDecimals: 2,
-                },
+          },
+          series: [
+            {
+              name: "数量",
+              data: chartData,
+              tooltip: {
+                valueDecimals: 2,
               },
-            ],
-          });
-        }
-      );
-
-      $.getJSON(
-        "https://data.jianshukeji.com/jsonp?filename=json/aapl-ohlcv.json&callback=?",
-        (data) => {
-          console.log(data);
-          var ohlc = [],
-            volume = [],
-            dataLength = data.length,
-            // set the allowed units for data grouping
-            groupingUnits = [
-              [
-                "week", // unit name
-                [1], // allowed multiples
-              ],
-              ["month", [1, 2, 3, 4, 6]],
-            ],
-            i = 0;
-          for (i; i < dataLength; i += 1) {
-            ohlc.push([
-              data[i][0], // the date
-              data[i][1], // open
-              data[i][2], // high
-              data[i][3], // low
-              data[i][4], // close
-            ]);
-            volume.push([
-              data[i][0], // the date
-              data[i][5], // the volume
-            ]);
-          }
-          // create the chart
-          //   this.stockChart = new Highcharts.stockChart("container", {
-          //     rangeSelector: {
-          //       selected: 1,
-          //       inputDateFormat: "%Y-%m-%d",
-          //     },
-          //     title: {
-          //       text: "苹果历史股价",
-          //     },
-          //     xAxis: {
-          //       dateTimeLabelFormats: {
-          //         millisecond: "%H:%M:%S.%L",
-          //         second: "%H:%M:%S",
-          //         minute: "%H:%M",
-          //         hour: "%H:%M",
-          //         day: "%m-%d",
-          //         week: "%m-%d",
-          //         month: "%y-%m",
-          //         year: "%Y",
-          //       },
-          //     },
-          //     yAxis: [
-          //       {
-          //         labels: {
-          //           align: "right",
-          //           x: -3,
-          //         },
-          //         title: {
-          //           text: "股价",
-          //         },
-          //         height: "60%",
-          //         lineWidth: 2,
-          //       },
-          //       {
-          //         labels: {
-          //           align: "right",
-          //           x: -3,
-          //         },
-          //         title: {
-          //           text: "成交量",
-          //         },
-          //         top: "65%",
-          //         height: "35%",
-          //         offset: 0,
-          //         lineWidth: 2,
-          //       },
-          //     ],
-          //     series: [
-          //       {
-          //         type: "candlestick",
-          //         name: "AAPL",
-          //         color: "green",
-          //         lineColor: "green",
-          //         upColor: "red",
-          //         upLineColor: "red",
-          //         tooltip: {},
-          //         data: ohlc,
-          //         dataGrouping: {
-          //           units: groupingUnits,
-          //         },
-          //       },
-          //       {
-          //         type: "column",
-          //         name: "Volume",
-          //         data: volume,
-          //         yAxis: 1,
-          //         dataGrouping: {
-          //           units: groupingUnits,
-          //         },
-          //       },
-          //     ],
-          //   });
-        }
-      );
+            },
+          ],
+        });
+      });
     },
+    doSearch() {
+      getTop10(this.queryParams).then(resp=> {
+        this.tableData = resp.data
+      })
+
+      getAggsBySchema(this.queryParams).then((resp) => {
+        const reducer = (accumulator, item) =>
+          accumulator + item["schema_count"];
+        let countAll = resp.data.reduce(reducer, 0);
+        this.schemaPieOptions.series[0].data = resp.data.map((v) => {
+          return {
+            name: v["schema"],
+            y: v["schema_count"] / countAll,
+          };
+        });
+      });
+    },
+
   },
 };
 </script>

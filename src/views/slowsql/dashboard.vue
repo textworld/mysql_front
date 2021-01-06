@@ -79,36 +79,29 @@ export default {
           {
             name: "库名",
             colorByPoint: true,
-            data: [
-              {
-                name: "Chrome",
-                y: 61.41,
-              },
-            ],
+            data: [],
           },
         ],
       },
     };
   },
   created() {
-    this.updateQueryParams = _.debounce(
-      function (startMsFloat, endMsFloat) {
-        console.log("update time range");
-        let startTime = _.toInteger(startMsFloat) / 1000;
-        let endTime = _.toInteger(endMsFloat) / 1000;
-        this.queryParams.start = moment.unix(startTime).format();
-        this.queryParams.end = moment.unix(endTime).format();
-        console.log(this.queryParams);
-        this.$emit("updateQueryParams");
-      }.bind(this),
-      250
-    );
+    console.log(this.queryParams.start)
+    this.updateQueryParamsFunc = _.debounce(function(startMsFloat, endMsFloat){
+      let startTime = _.toInteger(startMsFloat) /1000;
+      let endTime = _.toInteger(endMsFloat) / 1000;
+      this.queryParams.start = moment.unix(startTime).format()
+      this.queryParams.end = moment.unix(endTime).format()
+      this.$emit('updateQueryParams')
+    }.bind(this), 500)
+    // this.$on(), this.$emit()
     this.$on(
       "updateQueryParams",
       function () {
         console.log("query params has changed");
+        console.log(this.queryParams)
         this.doSearch();
-      }.bind(this)
+      }
     );
   },
   mounted() {
@@ -146,8 +139,9 @@ export default {
               afterSetExtremes: function (e) {
                 // e.min 和 e.max 为坐标轴当前的范围
                 console.log(e.min, e.max);
-                that.updateQueryParams(e.min, e.max);
-              },
+                console.log('afterSetExtremes', this.queryParams)
+                this.updateQueryParamsFunc(e.min, e.max);
+              }.bind(that),
             },
           },
           series: [

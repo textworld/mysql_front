@@ -87,6 +87,12 @@ export const menuRouts = [
                 component: () => import('@/views/slowsql/dashboard')
             },
             {
+                path: 'setting',
+                name: 'SlowSetting',
+                meta: { title: '告警设置' },
+                component: () => import('@/views/slowsql/settings')
+            },
+            {
                 path: 'simple',
                 name: 'HighCharts',
                 meta: { title: '例子' },

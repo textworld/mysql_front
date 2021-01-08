@@ -22,19 +22,19 @@ module.exports = {
     devServer: {
         port: port,
         proxy: {
-            '/api/zst_mysql/v1/slowsql/': {
+            '/api/': {
                 target: 'http://localhost:9100',
-                changeOrigin: true
+                //changeOrigin: true
             },
             '/api/zst_mysql/v1/news/': {
                 target: 'http://localhost:9100',
                 changeOrigin: true
             }
         },
-        overlay: {
-            warnings: false,
-            errors: true
-        },
-        before: require('./mock/mock-server.js')
+        // overlay: {
+        //     warnings: false,
+        //     errors: true
+        // },
+        //before: require('./mock/mock-server.js')
     }
 }

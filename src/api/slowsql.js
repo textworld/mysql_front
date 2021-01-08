@@ -41,12 +41,17 @@ export function getGlobalSetting(params) {
 }
 
 export function saveGlobalSetting(body) {
-    return request({
-        url: '/v1/slowsql/setting/global_setting/',
-        method: 'post',
-        data: {
-            query_time: 5,
-            query_count: 10
-        }
-    })
+    return request.post('/v1/slowsql/setting/global_setting/', body)
+}
+
+export function saveSchemaAlarmCfg(data) {
+    return request.post('/v1/slowsql/setting/', data)
+}
+
+export function getSchemaAlarmCfgList() {
+    return request.get('/v1/slowsql/setting/')
+}
+
+export function updateSchemaAlarmCfg(cfg_id, data){
+    return request.put(`/v1/slowsql/setting/${cfg_id}/`, data)
 }

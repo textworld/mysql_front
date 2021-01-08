@@ -31,3 +31,22 @@ export function getTop10(params) {
         params: params
     })
 }
+
+export function getGlobalSetting(params) {
+    return request({
+        url: '/v1/slowsql/setting/global_setting/',
+        method: 'get',
+        params: params
+    })
+}
+
+export function saveGlobalSetting(body) {
+    return request({
+        url: '/v1/slowsql/setting/global_setting/',
+        method: 'post',
+        data: {
+            query_time: 5,
+            query_count: 10
+        }
+    })
+}

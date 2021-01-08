@@ -3,7 +3,7 @@
     <div class="global_setting">
       <el-input
         placeholder="单位：秒"
-        v-model="globalSetting.queryTime"
+        v-model="global_setting.query_time"
         style="width: 250px"
       >
         <template slot="prepend">查询时间高于</template>
@@ -12,12 +12,14 @@
 
       <el-input
         placeholder="次"
-        v-model="globalSetting.queryCount"
+        v-model="global_setting.query_count"
         style="width: 300px"
       >
         <template slot="prepend">10秒内查询次数大于</template>
         <template slot="append">报警</template>
       </el-input>
+
+      <el-button type="primary" style="margin-left: 10px;" @click="saveGlobalSetting">保存</el-button>
     </div>
     <el-divider></el-divider>
     <div class="sceham_setting">
@@ -87,12 +89,14 @@
 </template>
 
 <script>
+  import {getGlobalSetting, saveGlobalSetting} from '@/api/slowsql'
+
 export default {
   data() {
     return {
-      globalSetting: {
-        queryTime: 5,
-        queryCount: 10,
+      global_setting: {
+        query_time: 5,
+        query_count: 10,
       },
       tableData: [
         {
@@ -116,6 +120,9 @@ export default {
       currentPage4: 4,
     };
   },
+  created(){
+    this.pageLoad()
+  },
   methods: {
     handleEdit(index, row) {
       console.log(index, row);
@@ -134,6 +141,16 @@ export default {
     },
     handleRowClick(row, index){
       console.log('row:', row)
+    },
+    pageLoad(){
+      getGlobalSetting().then(resp => {
+        console.log('global setting:', resp)
+      })
+    },
+    saveGlobalSetting(){
+      saveGlobalSetting(this.global_setting).then(resp => {
+        this.$message.success('保存成功')
+      }).catch(err => console.error(err))
     }
   },
 };

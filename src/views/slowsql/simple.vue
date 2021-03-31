@@ -3,6 +3,12 @@
     <el-button @click="load">click</el-button>
     <el-button @click="clear">clear</el-button>
     <highcharts :options="chartOptions"></highcharts>
+    <div @click="console('parent')" style="padding: 10px;background: red">
+      父元素
+      <div @click.stop="console('son')" style="padding: 10px; background: green;">
+        子元素
+      </div>
+    </div>
   </div>
 </template>
 
@@ -62,6 +68,9 @@ export default {
   },
   mounted() {},
   methods: {
+    console(message){
+      console.log(message)
+    },
     load(){
       let data =[{
             name: "安装，实施人员",

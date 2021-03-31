@@ -32,8 +32,7 @@
             <div slot="header" class="clearfix">
                 <span>库级别设置</span>
                 <div style="float: right" >
-                    <el-button @click="saveSchemaRowCfg">保存</el-button>
-                    <el-button @click="showDialog"size="small">增加设置</el-button>
+                    <el-button @click="showDialog" size="small">增加设置</el-button>
                 </div>
 
             </div>

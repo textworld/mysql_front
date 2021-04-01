@@ -8,9 +8,9 @@
 </template>
 
 <script>
-    import {getSchemaNameList} from '@/api/schema_info'
+    import {getSchemaNameList, getSchemas} from '@/api/schema_info'
     export default {
-        name: "schema_search",
+        name: "SchemaSearch",
         props: {
             value: {
                 type: String,
@@ -18,15 +18,16 @@
             },
             placeholder: {
                 type: String,
-                required: false,
                 default: '请输入内容'
             }
         },
-        data(){
-            return {
-                schema: "",
-                schemaList: []
-            }
+        created() {
+            this.schmea = this.value
+            getSchemaNameList().then(resp => {
+                if(resp.code === 2000) {
+                    this.schemaList = resp.data
+                }
+            })
         },
         watch: {
             schema(newVal, oldVal) {
@@ -34,17 +35,17 @@
                     this.$emit('input', newVal)
                 }
             },
-            value(newVal, oldVal) {
+            value(newVal, oldVal){
                 if (newVal !== this.schema) {
                     this.schema = newVal
                 }
             }
         },
-        created() {
-            this.schema = this.value
-            getSchemaNameList().then(resp => {
-                this.schemaList = resp.data
-            })
+        data(){
+            return {
+                schemaList: [],
+                schema: ""
+            }
         },
         methods: {
             querySearch(queryString, cb) {

@@ -71,14 +71,33 @@ export const menuRouts = [
     },
     {
         path: '/slowsql',
-        meta: { title: '慢SQL管理' },
+        meta: {title: '慢SQL管理'},
         component: () => import('@/layout/index'),
         children: [
             {
-                path: 'index',
+                path: 'list',
+                name: 'SlowSQLList',
                 meta: { title: '列表' },
                 component: () => import('@/views/slowsql/index')
-            }
+            },
+            {
+                path: 'charts',
+                name: 'HighCharts',
+                meta: { title: '图表' },
+                component: () => import('@/views/slowsql/dashboard')
+            },
+            {
+                path: 'setting',
+                name: 'SlowSetting',
+                meta: { title: '告警设置' },
+                component: () => import('@/views/slowsql/settings')
+            },
+            {
+                path: 'simple',
+                name: 'HighCharts',
+                meta: { title: '例子' },
+                component: () => import('@/views/slowsql/simple')
+            },
         ]
     }
 ]

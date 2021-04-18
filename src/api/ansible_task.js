@@ -14,3 +14,10 @@ export function queryAnsibleTaskSteps(task_id) {
         type: 'get'
     })
 }
+
+export function getAnsibleTaskById(task_id) {
+    return request({
+        url: `/v1/schema_info/ansible_task/${task_id}/`,
+        type: 'get'
+    })
+}

@@ -1,6 +1,7 @@
 <template>
     <div class="sidebar-container">
         <el-scrollbar wrap-class="scrollbar-wrapper">
+            <h1 style="color: #ffffff;text-align:center;padding-top: 20px;">数据库平台</h1>
             <el-menu :default-active="routePath" class="el-menu-vertical-demo" background-color="rgb(48, 65, 86)"
                     text-color="#fff" active-text-color="#ffd04b" router>
                 <div v-for="(submenu, key) in menuRouts" :key="key">
@@ -13,7 +14,7 @@
                     <template v-else>
                         <el-submenu :index="resolvePath('/', submenu.path)">
                             <template slot="title">
-                                <i class="el-icon-location"></i>
+                                <i :class="'iconfont icon-' + submenu.meta.icon" style="color: #ffffff;font-size:22px;margin-right: 5px;"></i>
                                 <span>{{routeName(submenu)}}</span>
                             </template>
 
@@ -22,7 +23,7 @@
                                         v-for="(child, cKey) in submenu.children"
                                         :key="cKey"
                                         :index="resolvePath(submenu.path, child.path)">
-                                    {{routeName(child)}}
+                                    <i :class="'iconfont icon-' + child.meta.icon" style="color: #ffffff;font-size:22px;margin-right: 5px;"></i> {{routeName(child)}}
                                 </el-menu-item>
                             </el-menu-item-group>
 

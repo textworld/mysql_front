@@ -76,8 +76,26 @@ export const menuRouts = [
             {
                 path: 'threshold',
                 meta: { title: '阈值', icon: 'wxbgongju'},
+                component: () => import('@/views/slowsql/setting2')
+            },
+            {
+                path: 'setting',
+                name: 'SlowSetting',
+                meta: { title: '告警设置', icon: 'wxbgongju' },
                 component: () => import('@/views/slowsql/settings')
-            }
+            },
+            {
+                path: 'simple',
+                name: 'HighCharts',
+                meta: { title: '例子' },
+                component: () => import('@/views/slowsql/simple')
+            },
+            {
+                path: 'charts',
+                name: 'HighCharts',
+                meta: { title: '图表' },
+                component: () => import('@/views/slowsql/dashboard')
+            },
         ]
     }
 ]

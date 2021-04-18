@@ -46,38 +46,37 @@ export const menuRouts = [
     },
     {
         path: '/schema_manage',
-        meta: {title: '数据库管理'},
+        meta: {title: '数据库管理', icon: 'performancemonitori'},
         component: () => import('@/layout/index'),
         children: [
             {
                 path: 'mysql',
                 name: 'MySQLManage',
-                meta: { title: 'mysql实例' },
+                meta: { title: 'mysql实例', icon: 'performancemonitori' },
                 component: () => import('@/views/schema_manage/mysql')
-            },
-            {
-                path: 'mysql_detail',
-                name: 'MySQLDetail',
-                meta: { title: 'detail' },
-                component: () => import('@/views/schema_manage/detail')
             },
             {
                 path: 'mysql_task',
                 name: 'MySQLTask',
-                meta: { title: '任务列表' },
+                meta: { title: '任务列表', icon: 'ansible' },
                 component: () => import('@/views/schema_manage/ansible_task')
             }
         ]
     },
     {
         path: '/slowsql',
-        meta: { title: '慢SQL管理' },
+        meta: { title: '慢SQL管理', icon: 'slow' },
         component: () => import('@/layout/index'),
         children: [
             {
                 path: 'index',
-                meta: { title: '列表' },
+                meta: { title: '列表', icon: 'all' },
                 component: () => import('@/views/slowsql/index')
+            },
+            {
+                path: 'threshold',
+                meta: { title: '阈值', icon: 'wxbgongju'},
+                component: () => import('@/views/slowsql/settings')
             }
         ]
     }

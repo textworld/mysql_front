@@ -22,16 +22,16 @@ module.exports = {
     devServer: {
         port: port,
         open: true,
-        // proxy: {
-        //     '/api': {
-        //         target: 'http://localhost:8010',
-        //         changeOrigin: true
-        //     },
-        // },
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8000',
+                changeOrigin: true
+            },
+        },
         overlay: {
             warnings: false,
             errors: true
         },
-        before: require('./mock/mock-server.js')
+        //before: require('./mock/mock-server.js')
     }
 }

@@ -50,5 +50,5 @@ jobs:
           
       - name: Deploy
         run: |
-          rsync -av --delete public root@115.159.207.78:/var/www/mysql_front
+          rsync -av --delete dist root@115.159.207.78:/var/www/mysql_front
   

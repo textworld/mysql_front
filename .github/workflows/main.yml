@@ -38,3 +38,17 @@ jobs:
         # 环境变量
         env:
           CI: true
+          
+      - uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: |
+            ${{ secrets.TECENT_RXY }}
+            
+      - name: Scan public keys
+        run: |
+          ssh-keyscan 115.159.207.78 >> ~/.ssh/known_hosts
+          
+      - name: Deploy
+        run: |
+          rsync -av --delete public root@115.159.207.78:/var/www/mysql_front
+  

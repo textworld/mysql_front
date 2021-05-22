@@ -4,17 +4,11 @@
             <el-form-item label="schema">
                 <SchemaSearch v-model="form.schema"></SchemaSearch>
             </el-form-item>
-            <el-form-item label="sql_print">
-                <el-input v-model="form.sql_print" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="sql_print_hash">
-                <el-input v-model="form.sql_print_hash" autocomplete="off"></el-input>
-            </el-form-item>
             <el-form-item label="query_time">
-                <el-input v-model="form.query_time" autocomplete="off"></el-input>
+                <el-input v-model="form.query_time" autocomplete="off" type="number"></el-input>
             </el-form-item>
             <el-form-item label="query_count">
-                <el-input v-model="form.query_count" autocomplete="off"></el-input>
+                <el-input v-model="form.query_count" autocomplete="off" type="number"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -27,6 +21,7 @@
 <script>
     import {saveSchemaAlarmCfg} from '@/api/slowsql'
     import SchemaSearch from "@/components/SchemaSearch";
+    import _ from 'lodash'
     export default {
         components: {SchemaSearch},
         name: "SchemaAlarmSetting",
@@ -42,10 +37,9 @@
                 dialogFormVisible: false,
                 form: {
                     schema: "",
-                    query_time: 0,
-                    query_count: 0,
-                    sql_print: "",
-                    sql_print_hash: ""
+                    query_time: 10,
+                    query_count: 10,
+                    type: "schema"
                 }
             }
         },
@@ -58,10 +52,14 @@
         },
         methods: {
             saveSchemaCfg(){
+                if (this.form.schema == "") {
+                    this.$message.error('请选择一个库')
+                    return
+                }
                 saveSchemaAlarmCfg(this.form).then(resp => {
                     this.$message.success('保存成功')
                 }).catch(err => {
-                    console.error(err)
+                    console.log('rrrr')
                 }).finally(() => {
                     this.dialogFormVisible = false
                 })

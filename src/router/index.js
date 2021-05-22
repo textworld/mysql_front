@@ -9,8 +9,14 @@ export const menuRouts = [
         path: '/',
         meta: {title: 'Dashboard'},
         component: () => import('@/layout/index'),
-        redirect: '/home',
+        redirect: '/analyst',
         children: [
+            {
+                path: 'analyst',
+                name: 'Analyst',
+                meta: { title: 'Analyst' },
+                component: () => import('@/views/dashboard')
+            },
             {
                 path: 'home',
                 name: 'Home',
@@ -74,28 +80,11 @@ export const menuRouts = [
                 component: () => import('@/views/slowsql/index')
             },
             {
-                path: 'threshold',
-                meta: { title: '阈值', icon: 'wxbgongju'},
-                component: () => import('@/views/slowsql/setting2')
-            },
-            {
                 path: 'setting',
                 name: 'SlowSetting',
                 meta: { title: '告警设置', icon: 'wxbgongju' },
                 component: () => import('@/views/slowsql/settings')
-            },
-            {
-                path: 'simple',
-                name: 'HighCharts',
-                meta: { title: '例子' },
-                component: () => import('@/views/slowsql/simple')
-            },
-            {
-                path: 'charts',
-                name: 'HighCharts',
-                meta: { title: '图表' },
-                component: () => import('@/views/slowsql/dashboard')
-            },
+            }
         ]
     }
 ]

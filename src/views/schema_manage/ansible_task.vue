@@ -32,7 +32,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog title="提示" :visible.sync="logDialogVisiable" width="80%" :before-close="handleClose">
+        <el-dialog title="任务日志" :visible.sync="logDialogVisiable" width="80%" :before-close="handleClose">
             <log-viewer :log="logs" :loading="isLoading" />
             <span slot="footer" class="dialog-footer">
             <el-button @click="logDialogVisiable = false">取 消</el-button>
@@ -88,6 +88,7 @@
             showLogDialog(task){
                 this.logs = task.result
                 this.logDialogVisiable = true
+                this.isLoading = false
                 if (task.status === "running") {
                     this.isLoading = true
                     // 每隔一段时间, 刷新下任务的日志
@@ -100,11 +101,15 @@
                                 // 任务完成后,再重新加载,更改表格中的状态
                                 this.loadData()
                                 clearInterval(this.timer)
-                            }else{
-                                this.logs = resp.data.result
                             }
+                            
+                            this.logs = resp.data.result
                         })
                     }.bind(this), 1000)
+                }else{
+                    getAnsibleTaskById(task.id).then(resp => {
+                        this.logs = resp.data.result
+                    })
                 }
 
             },

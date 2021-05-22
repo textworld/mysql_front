@@ -1,5 +1,17 @@
 import request from '@/utils/request'
 
+/**
+ * 获取数据库列表
+ * @param {} params 
+ * @returns 
+ */
+export function getDbSchemaList(params) {
+    return request({
+        url: '/v1/schema_info/db_schema/',
+        method: 'get',
+        params: params
+    })
+}
 export function getSchemaNameList(params){
     return request({
         url: '/v1/schema_info/mysql_schema/get_distinct_schema_names/',

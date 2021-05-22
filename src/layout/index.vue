@@ -10,7 +10,7 @@
             </el-header>
 
 
-            <el-main>
+            <el-main style="background: #eee;">
                 <router-view></router-view>
             </el-main>
 

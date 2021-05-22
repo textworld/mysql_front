@@ -8,6 +8,7 @@ export function queryAnsibleTask(params) {
     })
 }
 
+
 export function queryAnsibleTaskSteps(task_id) {
     return request({
         url: `/v1/schema_info/ansible_task/${task_id}/steps/`,
@@ -21,3 +22,8 @@ export function getAnsibleTaskById(task_id) {
         type: 'get'
     })
 }
+
+export function cube(x) {
+    return x * x * x;
+  }
+  

@@ -40,10 +40,10 @@
                 <el-table
                         ref="schema_table"
                         :data="tableData"
-                        highlight-current-row
                         style="width: 100%"
                         class="tb-edit"
                         @row-click="handleRowClick"
+                        highlight-current-row
                 >
                     <el-table-column align="left">
                         <template slot="header" slot-scope="scope">
@@ -60,11 +60,9 @@
 
                     <el-table-column label="不告警">
                         <template slot-scope="scope">
-                            <el-checkbox v-model="scope.row.disable_alarm">不告警</el-checkbox>
+                            <el-checkbox v-model="scope.row.stop_alarm">不告警</el-checkbox>
                         </template>
                     </el-table-column>
-
-                    <el-table-column label="sql_print" prop="sql_print"></el-table-column>
 
                     <el-table-column label="query_time" prop="query_time">
                         <template slot-scope="{ row, $index }">
@@ -82,7 +80,11 @@
 
                     <el-table-column label="操作">
                         <template slot-scope="scope">
-                            <el-button type="danger" size="small">删除</el-button>
+                            <el-popconfirm title="确认删除该配置么" @confirm.stop="deleteSchemaRowCfg(scope.row)" style="margin-right: 5px;">
+                                <el-button type="danger" size="small" slot="reference">删除</el-button>
+                            </el-popconfirm>
+                            
+                            <!-- <el-button type="primary" size="small" @click.="setCurrentRow(scope.$index)">编辑</el-button> -->
                             <el-button type="primary" size="small" class="btn-save" @click.stop="saveSchemaRowCfg(scope.row)">保存</el-button>
                         </template>
                     </el-table-column>
@@ -101,10 +103,16 @@
 <script>
     import {getGlobalSetting, saveGlobalSetting, getSchemaAlarmCfgList, updateSchemaAlarmCfg} from '@/api/slowsql'
     import SchemaAlarmDialog from '@/components/SchemaAlarmSetting'
-
+    import _ from 'lodash'
     export default {
         components: {
             SchemaAlarmDialog
+        },
+        mounted(){
+            document.addEventListener("click", this.bodyCloseMenus);
+        },
+        beforeDestroy() {
+            document.removeEventListener("click", this.bodyCloseMenus);
         },
         data() {
             return {
@@ -121,6 +129,15 @@
             this.pageLoad()
         },
         methods: {
+            bodyCloseMenus(e) {
+                let self = this;
+                if (!this.$refs.schema_table.$el.contains(e.target)) {
+                    this.$refs.schema_table.setCurrentRow(-1)
+                }
+            },
+            // setCurrentRow(idx){
+            //     this.$refs.schema_table.setCurrentRow(this.$refs.schema_table.data[idx])
+            // },
             handleEdit(index, row) {
                 console.log(index, row);
             },
@@ -149,6 +166,7 @@
                 })
             },
             saveGlobalSetting() {
+                
                 saveGlobalSetting(this.global_setting).then(resp => {
                     this.$message.success('保存成功')
                 }).catch(err => console.error(err))
@@ -158,12 +176,17 @@
             },
             saveSchemaRowCfg(row){
                 this.$refs.schema_table.setCurrentRow(-1)
-                console.log(row)
+                row = _.cloneDeep(row)
                 let row_id = row.id
                 delete row.id
                 updateSchemaAlarmCfg(row_id, row).then(resp => {
                     this.$message.success('修改成功')
+                    this.pageLoad()
                 })
+            },
+            deleteSchemaRowCfg(row){
+                row.delete = true
+                this.saveSchemaRowCfg(row)
             }
         },
     };

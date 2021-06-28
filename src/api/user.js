@@ -1,33 +1,17 @@
 import request from '@/utils/request'
 
-export function logout(params){
-    return request({
-        url: '/v1/user/logout',
-        method: 'get',
-        params: params
-    })
+export function simple_login(data) {
+    return request.post('/index/simple_login/', data)
 }
 
-export let login = (body) => {
-    return request({
-        url: '/v1/auth/login/',
-        method: 'post',
-        data: body
-    })
+export function login(data) {
+    return request.post('v1/user_app/login/', data)
 }
 
-export let getUserInfo = (params) => {
-    return request({
-        url: '/v1/auth/user_info/',
-        method: 'get',
-        params: params
-    })
+export function getLoginUser(){
+    return request.get('v1/user_app/user/')
 }
 
-export let getMenus = (params) => {
-    return request({
-        url: '/v1/menu/',
-        method: 'get',
-        params: params
-    })
+export function logout() {
+    return request.get('v1/user_app/logout/')
 }

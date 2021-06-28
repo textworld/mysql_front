@@ -1,54 +1,27 @@
 import request from '@/utils/request'
 
-/**
- * 获取数据库列表
- * @param {} params 
- * @returns 
- */
-export function getDbSchemaList(params) {
-    return request({
-        url: '/v1/schema_info/db_schema/',
-        method: 'get',
-        params: params
-    })
-}
-export function getSchemaNameList(params){
-    return request({
-        url: '/v1/schema_info/mysql_schema/get_distinct_schema_names/',
-        method: 'get',
-        params: params
-    })
+
+export function get_schemas(params) {
+    return request.get('v1/schema/schema_view/', {params})
 }
 
-export function getSchemas(params) {
-    return request({
-        url: '/v1/schema_info/mysql_schema/',
-        method: 'get',
-        params: params
-    })
+export function get_instances(params) {
+    return request.get('v1/schema/instance_view/', {params})
 }
 
-export function getProcessList(schemaId) {
+export function get_process_list(instanceId) {
     return request({
-        url: `/v1/schema_info/mysql_schema/${schemaId}/get_process_list/`,
+        url: `v1/schema/instance_view/${instanceId}/get_process_list/`,
         method: 'get'
     })
 }
 
-export function killProcessById(schemaId, processId) {
+export function kill_process_by_id(instanceId, processId){
     return request({
-        url: `/v1/schema_info/mysql_schema/${schemaId}/kill_process_list/`,
+        url: `v1/schema/instance_view/${instanceId}/kill_process_list/`,
         method: 'delete',
         data: {
             process_id: processId
         }
-    })
-}
-
-export function installMySQL(instance) {
-    return request({
-        url: '/v1/schema_info/mysql_schema/install_mysql/',
-        method: 'post',
-        data: instance
     })
 }

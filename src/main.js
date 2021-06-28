@@ -4,13 +4,15 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import './permission.js'
-import './App.less'
-import './assets/font_2107906_q5vgogfi2h/iconfont.css'
-
-Vue.use(ElementUI);
+import './permission'
+import { Message } from 'element-ui'
 
 Vue.config.productionTip = false
+Vue.use(ElementUI);
+
+Vue.prototype.$showError = (resp) => {
+  Message.error(resp.message)
+}
 
 new Vue({
   router,

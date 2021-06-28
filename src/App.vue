@@ -5,19 +5,16 @@
 </template>
 
 <style lang="less">
-  *{
-    margin: 0px;
-    padding: 0px;
-  }
-  html, body {
-    height: 100%;
-  }
+body{
+  margin: 0px;
+  padding: 0px;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
   color: #2c3e50;
-  height: 100%;
 }
 
 #nav {

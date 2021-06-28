@@ -1,104 +1,77 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 export const menuRouts = [
-    {
-        path: '/dashboard',
-        meta: {title: 'Dashboard'},
-        component: () => import('@/views/dashboard')
-    },
-    // {
-    //     path: '/permission',
-    //     meta: {title: '权限管理'},
-    //     component: () => import('@/layout/index'),
-    //     children: [
-    //         {
-    //             path: 'manage',
-    //             name: 'Permission',
-    //             meta: {title: '权限管理'},
-    //             component: () => import('@/views/permission/manager/index')
-    //         },
-    //         {
-    //             path: 'role',
-    //             name: 'Role',
-    //             meta: {title: '角色管理'},
-    //             component: () => import('@/views/permission/role/index')
-    //         }
-    //     ],
-    // },
-    {
-        path: '/schema_manage',
-        meta: {title: '数据库管理', icon: 'performancemonitori'},
-        component: () => import('@/layout/blankview'),
-        children: [
-            {
-                path: 'mysql',
-                name: 'MySQLManage',
-                meta: { title: 'mysql实例', icon: 'performancemonitori' },
-                component: () => import('@/views/schema_manage/mysql')
-            },
-            {
-                path: 'mysql_task',
-                name: 'MySQLTask',
-                meta: { title: '任务列表', icon: 'ansible' },
-                component: () => import('@/views/schema_manage/ansible_task')
-            }
-        ]
-    },
-    {
-        path: '/slowsql',
-        meta: { title: '慢SQL管理', icon: 'slow' },
-        component: () => import('@/layout/blankview'),
-        children: [
-            {
-                path: 'index',
-                meta: { title: '列表', icon: 'all' },
-                component: () => import('@/views/slowsql/index')
-            },
-            {
-                path: 'setting',
-                name: 'SlowSetting',
-                meta: { title: '告警设置', icon: 'wxbgongju' },
-                component: () => import('@/views/slowsql/settings')
-            }
-        ]
-    }
-]
-
-const mainRouter = [
-    {
-        path: '/login',
-        name: 'Login',
-        component: () => import('../views/Login')
-    },
-    {
-        path: '/login_pre',
-        name: 'LoginPre',
-        component: () => import('../views/Login_pre')
-    },
-]
-
-const routes = [].concat(
-    mainRouter,
-    [
-        {
-            path: '/',
-            meta: {title: 'Dashboard'},
-            component: () => import('@/layout/index'),
-            redirect: '/dashboard',
-            children: menuRouts
-        }
+  {
+    path: '/dashboard',
+    meta: { title: 'Dashboard' },
+    component: () => import('@/views/dashboard')
+  },
+  {
+    path: '/db_manage',
+    meta: { title: '库管理', icon: 'slow' },
+    component: () => import('@/layout/blankview'),
+    children: [
+      {
+        path: 'index',
+        meta: { title: '管理页' },
+        component: () => import('@/views/db_manage/index')
+      }
     ]
-)
+  },
+  {
+    path: '/slowsql',
+    meta: { title: '慢SQL管理', icon: 'slow' },
+    component: () => import('@/layout/blankview'),
+    children: [
+      {
+        path: 'index',
+        meta: { title: '列表', icon: 'all' },
+        component: () => import('@/views/slowsql/index')
+      },
+      {
+        path: 'setting',
+        name: 'SlowSetting',
+        meta: { title: '告警设置', icon: 'wxbgongju' },
+        component: () => import('@/views/slowsql/settings')
+      }
+    ]
+  }
+]
+
+const normalRoute = [
+  {
+    path: 'db_manage/schema/:name',
+    component: () => import('@/views/db_manage/schema_detail')
+  }
+]
+
+export const defaultPath = '/dashboard'
+
+const routes = [
+  {
+    path: '/',
+    name: 'root',
+    component: () => import('@/layout/layout'),
+    redirect: '/dashboard',
+    children: [].concat(menuRouts, normalRoute)
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login')
+  },
+]
+
+
+
 
 const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
 })
 
 export default router
-

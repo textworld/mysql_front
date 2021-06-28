@@ -1,22 +1,50 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getToken, setToken, removeToken } from "@/utils/auth";
-import User from './modules/user'
-import dbtables from "@/store/modules/dbtables";
+import { getLoginUser, logout, login } from '@/api/user'
+import _ from 'lodash'
+import Cookies from 'js-cookie'
+
 Vue.use(Vuex)
-// const store = new Vuex.Store({
-//   state: {
-//     count: 0
-//   },
-//   mutations: {
-//     increment (state) {
-//       state.count++
-//     }
-//   }
-// })
+
 export default new Vuex.Store({
-  modules: {
-    user: User,
-    dbLexicon: dbtables
-  }
+    state: {
+        user: Cookies.getJSON('user')
+    },
+    mutations: {
+        setUser(state, user) {
+            Cookies.set('user', user)
+            state.user = user
+        },
+        getUser(state) {
+            return state.user;
+        }
+    },
+    getters: {
+        username: state => {
+            return state.user && state.user.username ? state.user.username : '';
+        }
+    },
+    actions: {
+        login({ commit }, user) {
+            return new Promise((resolve, reject) => {
+                login(user).then(resp => {
+                    console.log('resp in login', resp)
+                    if (resp.code === 2000) {
+                        commit('setUser', resp.data)
+                        resolve(resp.data)
+                    } else {
+                        reject(resp.message)
+                    }
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        logout({ commit }) {
+            logout().then(resp => {
+                commit('setUser', {})
+                window.location.reload()
+            })
+        }
+    }
 })

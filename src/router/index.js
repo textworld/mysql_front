@@ -6,54 +6,33 @@ Vue.use(VueRouter)
 
 export const menuRouts = [
     {
-        path: '/',
+        path: '/dashboard',
         meta: {title: 'Dashboard'},
-        component: () => import('@/layout/index'),
-        redirect: '/analyst',
-        children: [
-            {
-                path: 'analyst',
-                name: 'Analyst',
-                meta: { title: 'Analyst' },
-                component: () => import('@/views/dashboard')
-            },
-            {
-                path: 'home',
-                name: 'Home',
-                meta: {title: 'TodoList'},
-                component: () => import('../views/Home')
-            },
-            {
-                path: 'about',
-                name: 'About',
-                meta: {title: 'About'},
-                component: () => import('../views/About')
-            },
-        ]
+        component: () => import('@/views/dashboard')
     },
-    {
-        path: '/permission',
-        meta: {title: '权限管理'},
-        component: () => import('@/layout/index'),
-        children: [
-            {
-                path: 'manage',
-                name: 'Permission',
-                meta: {title: '权限管理'},
-                component: () => import('@/views/permission/manager/index')
-            },
-            {
-                path: 'role',
-                name: 'Role',
-                meta: {title: '角色管理'},
-                component: () => import('@/views/permission/role/index')
-            }
-        ],
-    },
+    // {
+    //     path: '/permission',
+    //     meta: {title: '权限管理'},
+    //     component: () => import('@/layout/index'),
+    //     children: [
+    //         {
+    //             path: 'manage',
+    //             name: 'Permission',
+    //             meta: {title: '权限管理'},
+    //             component: () => import('@/views/permission/manager/index')
+    //         },
+    //         {
+    //             path: 'role',
+    //             name: 'Role',
+    //             meta: {title: '角色管理'},
+    //             component: () => import('@/views/permission/role/index')
+    //         }
+    //     ],
+    // },
     {
         path: '/schema_manage',
         meta: {title: '数据库管理', icon: 'performancemonitori'},
-        component: () => import('@/layout/index'),
+        component: () => import('@/layout/blankview'),
         children: [
             {
                 path: 'mysql',
@@ -72,7 +51,7 @@ export const menuRouts = [
     {
         path: '/slowsql',
         meta: { title: '慢SQL管理', icon: 'slow' },
-        component: () => import('@/layout/index'),
+        component: () => import('@/layout/blankview'),
         children: [
             {
                 path: 'index',
@@ -104,7 +83,15 @@ const mainRouter = [
 
 const routes = [].concat(
     mainRouter,
-    menuRouts
+    [
+        {
+            path: '/',
+            meta: {title: 'Dashboard'},
+            component: () => import('@/layout/index'),
+            redirect: '/dashboard',
+            children: menuRouts
+        }
+    ]
 )
 
 const router = new VueRouter({

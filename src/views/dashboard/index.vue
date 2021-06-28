@@ -63,7 +63,7 @@
             size="mini"
             clearable
             @input="getDbSchemaListDebounce"
-            placeholder="输入关键字搜索"/>
+            placeholder="输入库名搜索"/>
         </template>
       </el-table-column>
     </el-table>

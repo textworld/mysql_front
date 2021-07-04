@@ -16,10 +16,6 @@
           <el-button type="primary" @click="loadData">查询</el-button>
         </el-form-item>
       </el-form>
-
-      <div>
-        <el-button type="primary">安装MySQL</el-button>
-      </div>
     </el-row>
 
     <el-table :data="tableData" border>

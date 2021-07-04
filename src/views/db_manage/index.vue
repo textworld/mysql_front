@@ -14,7 +14,7 @@
       </el-form>
 
       <div>
-        <el-button type="primary">安装MySQL</el-button>
+        <el-button type="primary" @click="showInstallForm">安装MySQL</el-button>
       </div>
     </el-row>
 
@@ -45,14 +45,18 @@
       :total="pagination.total"
     >
     </el-pagination>
+    <InstallMySQLDialog ref="install_mysql_dialog" @success="onInstallSuccess"></InstallMySQLDialog>
+
   </div>
 </template>
 
 <script>
 import { get_schemas } from "@/api/schema_info";
 import _ from "lodash";
+import InstallMySQLDialog from './install_mysql_modal'
 export default {
   name: "index",
+  components: {InstallMySQLDialog},
   data() {
     return {
       pagination: {
@@ -72,6 +76,12 @@ export default {
   },
 
   methods: {
+    showInstallForm(){
+      this.$refs.install_mysql_dialog.show()
+    },
+    onInstallSuccess() {
+      this.loadData()
+    },
     loadData() {
       let params = {
         page_size: this.pagination.size,

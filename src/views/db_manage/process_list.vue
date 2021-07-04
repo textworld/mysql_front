@@ -88,17 +88,24 @@ export default {
         get_process_list(schema.id)
           .then((resp) => {
             console.log("resp", resp);
-            this.processList = resp.data;
-            console.log(this.processList);
-            _.forEach(this.processList, (v, k) => {
-              this.$set(this.processList[k], "loading", false);
-            });
-            this.dialogVisible = true;
+            if (resp.code === 2000) {
+
+              this.processList = resp.data;
+              console.log(this.processList);
+              _.forEach(this.processList, (v, k) => {
+                this.$set(this.processList[k], "loading", false);
+              });
+              this.dialogVisible = true;
+            }else{
+              this.$message.error("无法获取process list")
+            }
+
           })
           .catch((err) => {
             if (err) {
               this.$message.error("无法获取process list");
             }
+            resolve();
           })
           .finally(() => {
             resolve();

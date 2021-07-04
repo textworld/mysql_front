@@ -18,7 +18,12 @@ export const menuRouts = [
         path: 'index',
         meta: { title: '管理页' },
         component: () => import('@/views/db_manage/index')
-      }
+      },
+      {
+        path: 'ansible',
+        meta: { title: '安装任务' },
+        component: () => import('@/views/db_manage/ansible_task')
+      },
     ]
   },
   {

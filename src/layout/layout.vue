@@ -55,7 +55,7 @@
         <span>{{ username }}</span>
       </el-header>
 
-      <el-main>
+      <el-main style="background-color: #f2f3f3;">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -82,8 +82,8 @@
     border-right: none;
 }
 .layout-header{
-    text-align: right; 
-    font-size: 12px; 
+    text-align: right;
+    font-size: 12px;
     background-color: #fff;
     border-bottom: 1px solid #eee;
     -webkit-box-shadow: 0 1px 4px rgb(0 21 41 / 8%);

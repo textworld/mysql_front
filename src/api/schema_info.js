@@ -33,3 +33,12 @@ export function installMySQL(instance) {
         data: instance
     })
 }
+
+
+export function getSchemaNameList(params){
+    return request({
+        url: '/v1/schema/schema_view/get_distinct_schema_names/',
+        method: 'get',
+        params: params
+    })
+}

@@ -37,7 +37,7 @@
                         { required: true, message: '请输入IP地址', trigger: 'blur' },
                     ],
                     port: [
-                        { required: true, type: "integer", min:3305, max: 65535, message: '请输入端口', trigger: 'blur' }
+                        { required: true, type: "integer", min:3305, max: 65535, message: '端口必填,且范围在3305-65535之间', trigger: 'blur' }
                     ],
                     schema: [
                         { required: true, type: 'string', message: '请输入库名', trigger: 'blur'}

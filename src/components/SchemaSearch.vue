@@ -5,6 +5,8 @@
       :fetch-suggestions="querySearch"
       :placeholder="placeholder"
       :size="size"
+      :width="width"
+      @select="onSelect"
   ></el-autocomplete>
 </template>
 
@@ -25,10 +27,14 @@ export default {
     size: {
       type: String,
       default: 'small'
+    },
+    width: {
+      type: Number,
+      default: 100
     }
   },
   created() {
-    this.schmea = this.value;
+    this.schema = this.value;
     getSchemaNameList().then((resp) => {
       if (resp.code === 2000) {
         this.schemaList = resp.data;
@@ -66,6 +72,9 @@ export default {
           });
       cb(results);
     },
+    onSelect(val) {
+      this.$emit('select',val)
+    }
   },
 };
 </script>

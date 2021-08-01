@@ -42,3 +42,82 @@ export function getSchemaNameList(params){
         params: params
     })
 }
+
+export function querySlowSQL(params) {
+    return request({
+        url: '/v1/schema/es_document/search/',
+        method: 'get',
+        params: params
+    })
+}
+
+export function getGlobalSetting(params){
+    return request({
+        url: 'v1/schema/alarm_setting/global_setting/',
+        method: 'GET',
+        params: params
+    })
+}
+
+export function saveGlobalSetting(data) {
+    return request({
+        url: 'v1/schema/alarm_setting/global_setting/',
+        method: 'POST',
+        data: data
+    })
+}
+
+export function getSchemaSetting(params) {
+    return request({
+        url: 'v1/schema/alarm_setting/',
+        method: 'GET',
+        params: params
+    })
+}
+
+export function saveSchemaSetting(data) {
+    return request({
+        url: 'v1/schema/alarm_setting/',
+        method: 'POST',
+        data: data
+    })
+}
+
+export function updateSchemaSetting(data) {
+    return request({
+        url: `v1/schema/alarm_setting/${data.id}/`,
+        method: 'PUT',
+        data: data
+    })
+}
+
+export function getSQLId(data){
+    return request({
+        url: `v1/schema/alarm_setting/get_sql_id/`,
+        method: 'POST',
+        data: data
+    })
+}
+
+export function saveSQLSetting(data) {
+    return request({
+        url: 'v1/schema/alarm_setting/',
+        method: 'POST',
+        data: {
+            'type': 'sql',
+            ...data
+        }
+    })
+}
+
+export function updateSQLSetting(data) {
+    return request({
+        url: `v1/schema/alarm_setting/${data['id']}/`,
+        method: 'PUT',
+        data: {
+            'type': 'sql',
+            ...data
+        }
+    })
+}
+

@@ -121,3 +121,11 @@ export function updateSQLSetting(data) {
     })
 }
 
+
+export function getAggsByDate(params) {
+    return request({
+        url: 'v1/schema/es_document/get_aggs_by_date/',
+        method: 'get',
+        params: params
+    })
+}

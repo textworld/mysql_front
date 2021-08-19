@@ -2,7 +2,7 @@
   <div class="login-box">
     <div class="login-container">
       <el-form ref="form" class="login-form" style="padding: 10px 20px;">
-        <h1>系统登录</h1>
+        <h1 style="margin-bottom: 30px;">知数堂管理系统</h1>
         <el-form-item>
           <el-input v-model="form.username"></el-input>
         </el-form-item>
@@ -10,7 +10,7 @@
           <el-input v-model="form.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="makeLogin">立即登录</el-button>
+          <el-button type="primary" @click="makeLogin" style="width: 100%">立即登录</el-button>
         </el-form-item>
       </el-form>
     </div>

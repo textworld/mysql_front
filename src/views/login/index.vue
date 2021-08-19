@@ -1,125 +1,92 @@
 <template>
-    <div class="login-box">
-        <div class="login-container">
-            <el-form ref="form" class="login-form" style="padding: 10px 20px;">
-                <h1>系统登录</h1>
-                <el-form-item>
-                    <el-input v-model="form.username"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-input v-model="form.password" type="password"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="makeLogin">立即登录</el-button>
-                    <el-button @click="get_username">打印当前用户名</el-button>
-                    <el-button @click="logout">登出</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
+  <div class="login-box">
+    <div class="login-container">
+      <el-form ref="form" class="login-form" style="padding: 10px 20px;">
+        <h1 style="margin-bottom: 30px;">知数堂管理系统</h1>
+        <el-form-item>
+          <el-input v-model="form.username"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="form.password" type="password"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="makeLogin" style="width: 100%">立即登录</el-button>
+        </el-form-item>
+      </el-form>
     </div>
-    
+  </div>
+
 </template>
 
 <script>
-import { simple_login, get_username, logout} from '@/api/user.js'
+import {logout} from '@/api/user.js'
 import _ from 'lodash'
 
 export default {
-    data(){
-            return{
-                label_width: "100px",
-                form:{
-                    username: "zst_01",
-                    password: "123456"
-                }
-            };
-    },
+  data(){
+    return{
+      label_width: "100px",
+      form:{
+        username: "zst_01",
+        password: "123456"
+      }
+    };
+  },
 
-    methods: {
-        makeLogin(){
-            // 发起了一个Ajax请求, Promise请求
-            // 箭头函数,和python里面的lambda比较相似
-            // simple_login(this.form).then(resp => {
-            //     if(resp.data.status === 4001) {
-            //         this.$message.error("用户名或者密码错误")
-            //     }else{
-            //         console.log("login", resp)
-            //         this.$message.info('登录成功')
-            //         console.log('this.$router', this.$router)
-            //         // $store.commit 提交数据,写数据
-            //         // mutations的名字
-            //         this.$store.commit('setUser', {username: 'zst'})
-
-            //         setTimeout(function(){
-            //             console.log('setimeout', this.$router)
-            //             this.$router.push('/')
-            //         }.bind(this), 800)
-                    
-            //     }
-            // }).catch((err) => {
-            //     this.$message.error('服务器开小差了,请等会再试试吧!')
-            // })
-
-            this.$store.dispatch('login', this.form).then(user => {
-                this.$message.info('登录成功')
-                setTimeout(function(){
-                    console.log('setimeout', this.$router)
-                    this.$router.push('/')
-                }.bind(this), 800)
-            }).catch(err => {
-                if (_.isString(err)) {
-                    this.$message.error(err)
-                }else{
-                    console.error(err)
-                    this.$message.error('服务器开小差了,请等会再试试吧!')
-                }
-            })
-        },
-        resetForm(){
-
-        },
-        get_username(){
-            get_username().then(resp => {
-                console.log('get username: ', resp)
-            })
-        },
-        logout(){
-            logout().then(resp => {
-                console.log('logout', resp)
-            })
+  methods: {
+    makeLogin(){
+      this.$store.dispatch('login', this.form).then(user => {
+        this.$message.info('登录成功')
+        setTimeout(function(){
+          console.log('setimeout', this.$router)
+          this.$router.push('/')
+        }.bind(this), 800)
+      }).catch(err => {
+        if (_.isString(err)) {
+          this.$message.error(err)
+        }else{
+          console.error(err)
+          this.$message.error('服务器开小差了,请等会再试试吧!')
         }
+      })
     },
+    logout(){
+      logout().then(resp => {
+        console.log('logout', resp)
+      })
+    }
+  },
 };
 </script>
 
 <style>
-    .login-box {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        overflow: hidden;
-        background-color: rgba(38, 50, 56, .6);
-        background: url(~@/assets/login-bg.jpeg) no-repeat;
-        background-size: 100% 100%;
-    }
-    .login-container{
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        height: 300px;
-        width: 400px;
-        background-color: #112234;
-        opacity: .8;
-    }
-    .login-form {
-        padding: 10px 20px;
-    }
-    .login-form h1 {
-        color: #fff;
-    }
+.login-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: rgba(38, 50, 56, .6);
+  background: url(~@/assets/login-bg.jpeg) no-repeat;
+  background-size: 100% 100%;
+}
+.login-container{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  height: 300px;
+  width: 400px;
+  background-color: #112234;
+  opacity: .8;
+}
+.login-form {
+  padding: 10px 20px;
+}
+.login-form h1 {
+  color: #fff;
+}
 </style>

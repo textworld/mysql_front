@@ -41,6 +41,12 @@ export const menuRouts = [
         name: 'SlowSetting',
         meta: { title: '告警设置', icon: 'wxbgongju' },
         component: () => import('@/views/slowsql/settings')
+      },
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        meta: { title: '仪表盘', icon: 'wxbgongju'},
+        component: () => import('@/views/slowsql/dashboard')
       }
     ]
   }

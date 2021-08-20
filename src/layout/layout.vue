@@ -41,14 +41,17 @@
 
     <el-container style="margin-left: 200px;min-height: 800px;">
       <el-header class="layout-header" style="">
+
         <el-dropdown @command="handleCommand">
-          <i class="el-icon-setting" style="margin-right: 15px"></i>
+          <span style="font-size: 1.2em;font-weight: bold">
+            <i class="el-icon-user-solid"></i>&nbsp;{{ username }}
+          </span>
+          <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="profile">个人中心</el-dropdown-item>
             <el-dropdown-item command="logout">登出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span>{{ username }}</span>
       </el-header>
 
       <el-main style="background-color: #f2f3f3;">

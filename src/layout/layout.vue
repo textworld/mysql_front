@@ -5,11 +5,13 @@
       width="200px"
       style="background-color: rgb(48, 65, 86)"
     >
+      <h1 class="aside-title">知数堂DMS</h1>
       <el-menu :default-active="routePath" class="el-menu-vertical-demo" router       background-color="#304156"
       text-color="#fff">
         <div v-for="(submenu, key) in menuRouts" :key="key">
           <template v-if="!submenu.children || submenu.children.length == 0">
             <el-menu-item :index="resolvePath('/', submenu.path)">
+              <i class="el-icon-menu"></i>
               {{ routeName(submenu) }}
             </el-menu-item>
           </template>
@@ -17,10 +19,7 @@
           <template v-else>
             <el-submenu :index="resolvePath('/', submenu.path)">
               <template slot="title">
-                <i
-                  :class="'iconfont icon-' + submenu.meta.icon"
-                  style="color: #ffffff; font-size: 22px; margin-right: 5px"
-                ></i>
+                <i class="el-icon-menu"></i>
                 <span>{{ routeName(submenu) }}</span>
               </template>
 
@@ -30,10 +29,7 @@
                   :key="cKey"
                   :index="resolvePath(submenu.path, child.path)"
                 >
-                  <i
-                    :class="'iconfont icon-' + child.meta.icon"
-                    style="color: #ffffff; font-size: 22px; margin-right: 5px"
-                  ></i>
+                  <i :class="child.meta.icon ? 'el-icon-' + child.meta.icon : 'el-icon-s-grid'"></i>
                   {{ routeName(child) }}
                 </el-menu-item>
               </el-menu-item-group>
@@ -88,6 +84,12 @@
     border-bottom: 1px solid #eee;
     -webkit-box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
     box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+}
+.aside-title{
+  color: #ffffff;
+  text-align: left;
+  padding-left: 20px;
+  font-size: 1.5em;
 }
 </style>
 

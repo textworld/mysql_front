@@ -33,19 +33,19 @@ export const menuRouts = [
     children: [
       {
         path: 'index',
-        meta: { title: '列表', icon: 'all' },
+        meta: { title: '列表', icon: 'tickets' },
         component: () => import('@/views/slowsql/index')
       },
       {
         path: 'setting',
         name: 'SlowSetting',
-        meta: { title: '告警设置', icon: 'wxbgongju' },
+        meta: { title: '告警设置', icon: 'setting' },
         component: () => import('@/views/slowsql/settings')
       },
       {
         path: 'dashboard',
         name: 'Dashboard',
-        meta: { title: '仪表盘', icon: 'wxbgongju'},
+        meta: { title: '仪表盘', icon: 's-data'},
         component: () => import('@/views/slowsql/dashboard')
       }
     ]

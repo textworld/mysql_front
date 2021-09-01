@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 20px 40px;">
+  <div style="padding: 20px 20px;">
 
     <div class="content-header">
       <el-breadcrumb separator-class="el-icon-arrow-right">
